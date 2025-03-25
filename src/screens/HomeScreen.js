@@ -28,9 +28,9 @@ const categories = [
 ]; 
 
 const cinemas = [
-  { id: '1', name: 'Cinemaximum Gaziantep', address: 'Şahinbey, Gaziantep' },
-  { id: '2', name: 'Sanko Park Sineması', address: 'Sanko AVM, Şehitkamil' },
-  { id: '3', name: 'Prestige Sinema', address: 'Forum Gaziantep AVM' },
+  { id: '1', name: 'Cinemaximum Gaziantep', address: 'Primemall AVM, Gaziantep', image: require('../../assets/cinemas/cinemaximum-form-gaziantep.jpg') },
+  { id: '2', name: 'Sanko Park Sineması', address: 'Sanko AVM, Gaziantep', image: require('../../assets/cinemas/avsar-sinemasi-sanko-park.jpg') },
+  { id: '3', name: 'Prestige Sinema', address: 'Forum AVM, Gaziantep', image: require('../../assets/cinemas/prestige-primemall.jpg') },
 ];
 
 const HomeScreen = ({navigation}) => {
@@ -54,7 +54,7 @@ const HomeScreen = ({navigation}) => {
 
       <View style = {styles.categories}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',  }}>
-      <Text style = {{color: 'white', fontSize: 15}}>Categories</Text>
+      <Text style = {{color: 'white', fontSize: 17}}>Categories</Text>
         <CustomButton 
         buttonText = 'View All'
         handleOnPress = {()=>navigation.navigate('Categories')}
@@ -86,26 +86,34 @@ const HomeScreen = ({navigation}) => {
         keyExtractor={(item)=>item.id}
         renderItem={({item})=> (
         <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} /> {/* Film afişi */}
-          <Text style={styles.movieTitle}>{item.title}</Text> {/* Film başlığı */}
+          <Image source={item.image} style={styles.movieImage} /> 
+          <Text style={styles.movieTitle}>{item.title}</Text> 
         </View>)} />
       </View>
 
       <View style = {styles.cinemaCenter}>
-        <Text style = {{color: 'white', paddingBottom: 10, fontSize: 15 }}>Yakınınızdaki Sinemalar</Text>
+        <Text style = {{color: 'white', paddingBottom: 10, fontSize: 17 }}>Yakınınızdaki Sinemalar</Text>
      <FlatList
       data={cinemas}
       keyExtractor={(item) => item.id}
       horizontal
-      pagingEnabled // 📌 Sayfa sayfa kaydırma sağlar
-      snapToAlignment="center" // 📌 Ortada hizalar
-      scrollEventThrottle={16} // 📌 Akıcı kaydırma sağlar
-      decelerationRate="fast" // 📌 Hızlı kaydırmayı destekler
-      showsHorizontalScrollIndicator={false} // 📌 Scroll barı gizler
-      contentContainerStyle={{ alignItems: 'center' }} // 📌 Öğeleri ortalar
+      pagingEnabled 
+      snapToAlignment="center" 
+      scrollEventThrottle={16} 
+      decelerationRate="fast" 
+      showsHorizontalScrollIndicator={false} 
+      contentContainerStyle={{ alignItems: 'center' }} 
       renderItem={({ item }) => (
         <View style={styles.cinemaItem}>
           <Text style={styles.cinemaName}>{item.name}</Text>
+          <Image source = {item.image} style = {styles.cinemaImage}/>
+          <View style = {{alignItems: 'center' ,justifyContent: 'center', backgroundColor: '#aa2525', marginTop: 20, borderRadius: 10, width: 200, height: 60}}>
+          <Text>Adres:</Text>
+          <Text style={styles.cinemaAddress}>{item.address}</Text>
+          </View>
+
+          {/* <Image source = /> */}
+
         </View>
       )}
     />
@@ -204,9 +212,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 10
   },
   cinemaCenter: {
     paddingTop: 50
+  },
+  cinemaImage: {
+    width: '60%',
+    height: 250,
+    borderRadius: 10,
   }
 });
 

@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 import React from 'react'
-import ScrollViewWrapper, { ScrollView } from '../components/ScrollViewWrapper';
+import ScrollViewWrapper from '../components/ScrollViewWrapper';
+import { CustomButton } from '../components';
 
 // const window = Dimensions.get('window');
 const {width} = Dimensions.get('screen');
@@ -21,7 +22,7 @@ const movies = [
 ];
 
 
-const MoviesScreen = () => {
+const MoviesScreen = ({navigation}) => {
   return (
     <View style = {styles.container}>
       <ScrollViewWrapper>
@@ -35,8 +36,15 @@ const MoviesScreen = () => {
         keyExtractor={(item)=>item.id}
         renderItem={({item})=> (
         <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} /> {/* Film afişi */}
-          <Text style={styles.movieTitle}>{item.title}</Text> {/* Film başlığı */}
+          <Image source={item.image} style={styles.movieImage} /> 
+          <Text style={styles.movieTitle}>{item.title}</Text>
+          <CustomButton
+          buttonText = 'İncele'
+          setWidth
+          handleOnPress = {()=>navigation.navigate('MovieDetail', {movies:item})}
+          buttonColor
+          pressedButtonColor
+          />
         </View>)} />
       </View>
       </ScrollViewWrapper>

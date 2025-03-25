@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen } from '../screens/index';  // Ekranlarınızı içeri aktarıyoruz
+import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen } from '../screens/index';  // Ekranlarınızı içeri aktarıyoruz
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // Stack ve Tab navigatörlerini oluşturuyoruz
@@ -76,6 +76,8 @@ const MainNavigator = () => {
         <Stack.Screen name="Tickets" component={NavBar} />
         <Stack.Screen name="Profile" component={NavBar} />
         <Stack.Screen name = "Categories" component={CategoriesScreen} />
+        <Stack.Screen name = "MovieDetail" component={MovieDetailScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>
