@@ -1,10 +1,120 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Image, Dimensions, TextInput,  } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { CustomButton, ScrollViewWrapper } from '../components';
 
-const HomeScreen = () => {
+// Ekranın genişliği için bir değişken
+const {width} = Dimensions.get('screen');
+
+
+// Film verisi (Yerel assets kullanarak)
+const movies = [
+  { id: '1', title: 'Movie 1', image: require('../../assets/movies/joker.jpg') },
+  { id: '2', title: 'Movie 2', image: require('../../assets/movies/wonka.jpeg') },
+  { id: '3', title: 'Movie 3', image: require('../../assets/movies/beautyandbeast.png') },
+  { id: '4', title: 'Movie 4', image: require('../../assets/movies/avengers.jpg') },
+  { id: '5', title: 'Movie 5', image: require('../../assets/movies/skyfall.jpg') },
+
+];
+
+const categories = [
+  {id: '1', title: 'Aksiyon', icon: 'flame'},
+  {id: '2', title: 'Macera ', icon: 'rocket'},
+  {id: '3', title: 'Bilim Kurgu', icon: 'planet'},
+  {id: '4', title: 'Fantastik ', icon: 'cube'},
+  {id: '5', title: 'Komedi ', icon: 'happy'},
+  {id: '6', title: 'Romantik', icon: 'heart'},
+
+]; 
+
+const cinemas = [
+  { id: '1', name: 'Cinemaximum Gaziantep', address: 'Şahinbey, Gaziantep' },
+  { id: '2', name: 'Sanko Park Sineması', address: 'Sanko AVM, Şehitkamil' },
+  { id: '3', name: 'Prestige Sinema', address: 'Forum Gaziantep AVM' },
+];
+
+const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+    <ScrollViewWrapper>
+
+      {/* <Header
+      logoSource = {require('../../assets/images/popcornia.png')}/> */}
+
+    <View style = {styles.searchButton}>
+        <TextInput
+        backgroundColor = '#aa2525'
+        placeholder='Search'
+        placeholderTextColor={'black'}
+        style = {styles.searchInput}
+        />
+        <Ionicons name = 'search' size={12} color={'white'} style = {styles.searchIcon}/>
+
+      </View>
+
+      <View style = {styles.categories}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',  }}>
+      <Text style = {{color: 'white', fontSize: 15}}>Categories</Text>
+        <CustomButton 
+        buttonText = 'View All'
+        handleOnPress = {()=>navigation.navigate('Categories')}
+        buttonColor 
+        pressedButtonColor 
+        />
+        </View>
+        <FlatList
+        horizontal
+        data = {categories}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.categoriesItem}>
+            <Ionicons name={item.icon} size={17} color="white" />
+            <Text style = {styles.categoryTitle}>{item.title}</Text>
+          </View>
+        )}
+        
+        />
+      </View>
+      
+      <View style = {styles.filmContainer}>
+        <Text style = {{color: 'white', fontSize: 17, paddingBottom: '20'}}>Popüler Filmler</Text>
+       <FlatList
+        horizontal
+        showsHorizontalScrollIndicator = {false}
+        pagingEnabled
+        data = {movies}
+        keyExtractor={(item)=>item.id}
+        renderItem={({item})=> (
+        <View style={styles.movieItem}>
+          <Image source={item.image} style={styles.movieImage} /> {/* Film afişi */}
+          <Text style={styles.movieTitle}>{item.title}</Text> {/* Film başlığı */}
+        </View>)} />
+      </View>
+
+      <View style = {styles.cinemaCenter}>
+        <Text style = {{color: 'white', paddingBottom: 10, fontSize: 15 }}>Yakınınızdaki Sinemalar</Text>
+     <FlatList
+      data={cinemas}
+      keyExtractor={(item) => item.id}
+      horizontal
+      pagingEnabled // 📌 Sayfa sayfa kaydırma sağlar
+      snapToAlignment="center" // 📌 Ortada hizalar
+      scrollEventThrottle={16} // 📌 Akıcı kaydırma sağlar
+      decelerationRate="fast" // 📌 Hızlı kaydırmayı destekler
+      showsHorizontalScrollIndicator={false} // 📌 Scroll barı gizler
+      contentContainerStyle={{ alignItems: 'center' }} // 📌 Öğeleri ortalar
+      renderItem={({ item }) => (
+        <View style={styles.cinemaItem}>
+          <Text style={styles.cinemaName}>{item.name}</Text>
+        </View>
+      )}
+    />
+      </View>
+
+
+
+      </ScrollViewWrapper>
+
 
     </View>
   );
@@ -13,9 +123,91 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#121212',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  horizontalList: {
+    paddingLeft: 10,
+  },
+  moviesContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 20,
+    width: width
   },
+  movieItem: {
+    margin: 10,
+    alignItems: 'center',
+    backgroundColor: '#1e1e1e',
+    padding: 10,
+    borderRadius: 10,
+    width: 200,
+  },
+  movieImage: {
+    width: '100%',
+    height: 300,
+    borderRadius: 10,
+  },
+  movieTitle: {
+    marginTop: 10,
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  filmContainer: {
+    marginTop: 50,
+  },
+  searchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16
+
+  },
+  searchInput: {
+    paddingLeft: 30, // İkon için boşluk bırakıyoruz
+    backgroundColor: 'grey',
+    height: 40,
+    borderRadius: 5,
+    color: 'white',
+    width: '100%',
+    borderRadius: 10,
+  },
+  categories: {
+    marginTop: 30,
+  },
+  searchIcon: {
+    position: 'absolute',
+    left: 10, // İkonu soldan hizalayalım
+    top: 14, // Yükseklik ayarı
+    color: 'black'
+  },
+  categoriesItem: {
+    marginRight: 15,  // Aralarındaki boşluk
+    alignItems: 'center',
+  },
+  categoryTitle: {    
+    color: 'white',
+    marginTop: 5,
+    fontSize: 16,
+  },
+  cinemaItem: {
+    width: width, // 📌 Her öğe tam ekran genişliğinde olacak
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#444',
+    padding: 20,
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
+  cinemaName: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  cinemaCenter: {
+    paddingTop: 50
+  }
 });
 
 export default HomeScreen;
