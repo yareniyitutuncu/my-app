@@ -1,37 +1,11 @@
 import React from 'react';
 import { View, FlatList, Text, StyleSheet, Image, Dimensions, TextInput,  } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { CustomButton, ScrollViewWrapper } from '../components';
+import { CustomButton, ScrollViewWrapper, Movies, Categories, Cinemas } from '../components';
 
 // Ekranın genişliği için bir değişken
 const {width} = Dimensions.get('screen');
 
-
-// Film verisi (Yerel assets kullanarak)
-const movies = [
-  { id: '1', title: 'Movie 1', image: require('../../assets/movies/joker.jpg') },
-  { id: '2', title: 'Movie 2', image: require('../../assets/movies/wonka.jpeg') },
-  { id: '3', title: 'Movie 3', image: require('../../assets/movies/beautyandbeast.png') },
-  { id: '4', title: 'Movie 4', image: require('../../assets/movies/avengers.jpg') },
-  { id: '5', title: 'Movie 5', image: require('../../assets/movies/skyfall.jpg') },
-
-];
-
-const categories = [
-  {id: '1', title: 'Aksiyon', icon: 'flame'},
-  {id: '2', title: 'Macera ', icon: 'rocket'},
-  {id: '3', title: 'Bilim Kurgu', icon: 'planet'},
-  {id: '4', title: 'Fantastik ', icon: 'cube'},
-  {id: '5', title: 'Komedi ', icon: 'happy'},
-  {id: '6', title: 'Romantik', icon: 'heart'},
-
-]; 
-
-const cinemas = [
-  { id: '1', name: 'Cinemaximum Gaziantep', address: 'Primemall AVM, Gaziantep', image: require('../../assets/cinemas/cinemaximum-form-gaziantep.jpg') },
-  { id: '2', name: 'Sanko Park Sineması', address: 'Sanko AVM, Gaziantep', image: require('../../assets/cinemas/avsar-sinemasi-sanko-park.jpg') },
-  { id: '3', name: 'Prestige Sinema', address: 'Forum AVM, Gaziantep', image: require('../../assets/cinemas/prestige-primemall.jpg') },
-];
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -64,7 +38,7 @@ const HomeScreen = ({navigation}) => {
         </View>
         <FlatList
         horizontal
-        data = {categories}
+        data = {Categories}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.categoriesItem}>
@@ -82,19 +56,26 @@ const HomeScreen = ({navigation}) => {
         horizontal
         showsHorizontalScrollIndicator = {false}
         pagingEnabled
-        data = {movies}
+        data = {Movies}
         keyExtractor={(item)=>item.id}
         renderItem={({item})=> (
         <View style={styles.movieItem}>
           <Image source={item.image} style={styles.movieImage} /> 
           <Text style={styles.movieTitle}>{item.title}</Text> 
+          <CustomButton
+          buttonText = 'İncele'
+          handleOnPress = {()=>navigation.navigate('MovieDetail', {Movies:item})}
+          setWidth
+          buttonColor
+          pressedButtonColor
+          />
         </View>)} />
       </View>
 
       <View style = {styles.cinemaCenter}>
         <Text style = {{color: 'white', paddingBottom: 10, fontSize: 17 }}>Yakınınızdaki Sinemalar</Text>
      <FlatList
-      data={cinemas}
+      data={Cinemas}
       keyExtractor={(item) => item.id}
       horizontal
       pagingEnabled 

@@ -3,34 +3,38 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen } from '../screens/index';  // Ekranlarınızı içeri aktarıyoruz
+import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen } from '../screens/index';  // Ekranlarınızı içeri aktarıyoruz
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Header } from '../components';
 
-// Stack ve Tab navigatörlerini oluşturuyoruz
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-// Tab ekranları için NavBar
 const NavBar = () => {
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: { backgroundColor: 'black', height: 60 },
-         headerShown: false,
         tabBarActiveTintColor: '#aa2525',
         tabBarInactiveTintColor: 'white',
         tabBarLabelStyle: { fontSize: 13 },
         tabBarItemStyle: { borderRadius: 8, marginHorizontal: 5 },
-        headerBackgroundContainerStyle: {
-          color: 'grey',
-          backgroundColor: 'grey'
-        }
+        
+
       }}>
+        
       <Tab.Screen
         name="Home"
         component={HomeScreen}
-        options={{ tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />
+        options={{ tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color}/>,
+          header: ()=> <Header
+          logoSource = {require('../../assets/images/popcornia.png')}
+          onNotificationPress
+          title = 'hgfh'/>,
+      
+       
  }}
       />
       <Tab.Screen
@@ -52,7 +56,6 @@ const NavBar = () => {
   );
 };
 
-// AuthNavigator (Giriş, Kayıt ve Başlangıç Ekranları)
 const AuthNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false }}>
@@ -63,21 +66,20 @@ const AuthNavigator = () => {
   );
 };
 
-// MainNavigator (Bütün Ekranlar)
 const MainNavigator = () => {
   return (
     <SafeAreaProvider>
     <SafeAreaView style = {{flex:1}}>
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Auth" component={AuthNavigator} />
-        <Stack.Screen name="Home" component={NavBar} />
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Auth" component={AuthNavigator}/>
+        <Stack.Screen name="Home" component={NavBar}/>
         <Stack.Screen name="Movies" component={NavBar} />
         <Stack.Screen name="Tickets" component={NavBar} />
         <Stack.Screen name="Profile" component={NavBar} />
         <Stack.Screen name = "Categories" component={CategoriesScreen} />
         <Stack.Screen name = "MovieDetail" component={MovieDetailScreen} />
-
+        <Stack.Screen name = "Drawer" component={DrawerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>

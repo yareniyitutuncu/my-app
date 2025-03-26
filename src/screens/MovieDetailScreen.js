@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { Movies } from '../components';
 
 const MovieDetailScreen = ({ route }) => {
-  const { movies } = route.params; // Parametreyi alıyoruz (HomeScreen'den gönderilen film verisi)
-
+  const { Movies } = route.params; 
   return (
     <View style={styles.container}>
-      <Image source={movies.image} style={styles.image} />
-      <Text style={styles.title}>{movies.title}</Text>
+      <Image source={Movies.image} style={styles.image} />
+      <Text style={styles.title}>{Movies.title}</Text>
     </View>
   );
 };
