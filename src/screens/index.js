@@ -7,7 +7,7 @@ import MoviesScreen from "./MoviesScreen";
 import TicketsScreen from "./TicketsScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import MovieDetailScreen from "./MovieDetailScreen";
-import DrawerScreen from "./DrawerScreen";
+import FavoriteFilmsScreen from "./FavoriteFilmsScreen"
 
 export {
     LoginScreen,
@@ -19,5 +19,5 @@ export {
     TicketsScreen,
     CategoriesScreen,
     MovieDetailScreen,
-    DrawerScreen
+    FavoriteFilmsScreen
 }

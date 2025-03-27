@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const DrawerScreen = () => {
+const FavoriteFilmsScreen = () => {
   return (
     <View>
-      <Text>DrawerScreen</Text>
+      <Text>Favorite Films Screen</Text>
     </View>
   )
 }
 
-export default DrawerScreen
+export default FavoriteFilmsScreen
 
 const styles = StyleSheet.create({})

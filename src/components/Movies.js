@@ -1,18 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+const Movies = [
+  // Fantastik kategorisi
+  { id: '1', title: 'Wonka', image: require('../../assets/movies/wonka.jpeg'), category: 'Fantastik' },
+  { id: '2', title: 'Harry Potter and the Sorcerer\'s Stone', image: require('../../assets/movies/skyfall.jpg'), category: 'Fantastik' },
+  { id: '3', title: 'The Lord of the Rings: The Fellowship of the Ring', image: require('../../assets/movies/skyfall.jpg'), category: 'Fantastik' },
 
-const Movies = 
+  // Romantik kategorisi
+  { id: '4', title: 'Beauty and Beast', image: require('../../assets/movies/beautyandbeast.png'), category: 'Romantik' },
+  { id: '5', title: 'The Notebook', image: require('../../assets/movies/notebook.jpg'), category: 'Romantik' },
+  { id: '6', title: 'Titanic', image: require('../../assets/movies/skyfall.jpg'), category: 'Romantik' },
 
-    [
-        { id: '1', title: 'Movie 1', image: require('../../assets/movies/joker.jpg') },
-        { id: '2', title: 'Movie 2', image: require('../../assets/movies/wonka.jpeg') },
-        { id: '3', title: 'Movie 3', image: require('../../assets/movies/beautyandbeast.png') },
-        { id: '4', title: 'Movie 4', image: require('../../assets/movies/avengers.jpg') },
-        { id: '5', title: 'Movie 5', image: require('../../assets/movies/skyfall.jpg') },
-      
-      ];
-    
+  // Dram kategorisi
+  { id: '7', title: 'Joker', image: require('../../assets/movies/joker.jpg'), category: 'Dram' },
+  { id: '8', title: 'The Shawshank Redemption', image: require('../../assets/movies/skyfall.jpg'), category: 'Dram' },
+  { id: '9', title: 'Forrest Gump', image: require('../../assets/movies/skyfall.jpg'), category: 'Dram' },
 
+  // Aksiyon kategorisi
+  { id: '10', title: 'Avengers', image: require('../../assets/movies/avengers.jpg'), category: 'Aksiyon' },
+  { id: '11', title: 'Mad Max: Fury Road', image: require('../../assets/movies/skyfall.jpg'), category: 'Aksiyon' },
+  { id: '12', title: 'John Wick', image: require('../../assets/movies/skyfall.jpg'), category: 'Aksiyon' },
 
-export default Movies
+  // Casusluk kategorisi
+  { id: '13', title: 'Skyfall', image: require('../../assets/movies/skyfall.jpg'), category: 'Casusluk' },
+  { id: '14', title: 'Mission: Impossible - Fallout', image: require('../../assets/movies/skyfall.jpg'), category: 'Casusluk' },
+  { id: '15', title: 'The Bourne Identity', image: require('../../assets/movies/skyfall.jpg'), category: 'Casusluk' }
+];
 
+export default Movies;

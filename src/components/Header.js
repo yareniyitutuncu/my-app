@@ -1,34 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Header = ({ logoSource, onNotificationPress, title }) => {
+const Header = ({ profileImageSource, onMenuPress }) => {
   return (
     <View style={styles.container}>
-
-      {/* Sol Alan: Geri Butonu (isteğe bağlı) */}
+      
+      {/* Sol Alan: Menü Butonu */}
       <View style={styles.leftContainer}>
-        <TouchableOpacity>
-          <Ionicons name="arrow-back" size={25} color="white" />
+        <TouchableOpacity onPress={onMenuPress}>
+          <Ionicons name="menu" size={30} color="white" />
         </TouchableOpacity>
       </View>
 
-      {/* Orta Alan: Logo veya Başlık */}
-      <View style={styles.middleContainer}>
-        {logoSource ? (
-          <Image
-            source={logoSource} // Logo kaynağını burada belirtiyoruz
-            style={styles.logo}
-          />
-        ) : (
-          <Text style={styles.title}>{title || "Başlık"}</Text> // Başlık, logo yoksa
-        )}
-      </View>
-
-      {/* Sağ Alan: Bildirim Ikonu */}
+      {/* Sağ Alan: Profil Fotoğrafı */}
       <View style={styles.rightContainer}>
-        <TouchableOpacity onPress={onNotificationPress}>
-          <Ionicons name="notifications-outline" size={25} color="white" />
+        <TouchableOpacity>
+          <Image
+            source={profileImageSource} // Profil fotoğrafını burada belirtiyoruz
+            style={styles.profileImage}
+          />
         </TouchableOpacity>
       </View>
 
@@ -45,9 +36,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#333', // Daha koyu bir arka plan rengi
+    backgroundColor: '#333', // Koyu arka plan rengi
     borderBottomWidth: 2,
-    height: 70
+    borderBottomColor: '#444', // Alt çizgi
   },
   leftContainer: {
     flex: 1,
@@ -58,19 +49,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
-  middleContainer: {
-    flex: 3,
-    alignItems: 'center',
-  },
-  logo: {
-    width: 80,
-    height: 80,
-    aspectRatio: 1, 
-    resizeMode: 'contain',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: 'white',
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20, // Yuvarlak profil fotoğrafı
   },
 });

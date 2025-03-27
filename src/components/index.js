@@ -5,6 +5,7 @@ import ScrollViewWrapper from "./ScrollViewWrapper";
 import Movies from "./Movies";
 import Categories from "./Categories";
 import Cinemas from "./Cinemas";
+import CustomDrawer from "./CustomDrawer";
 
 export {
     CustomText,
@@ -14,4 +15,5 @@ export {
     Categories,
     Movies,
     Cinemas,
+    CustomDrawer
 }

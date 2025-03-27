@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Text, StyleSheet, Image, Dimensions, TextInput,  } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Image, Dimensions, TextInput, Pressable  } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CustomButton, ScrollViewWrapper, Movies, Categories, Cinemas } from '../components';
 
@@ -12,13 +12,12 @@ const HomeScreen = ({navigation}) => {
     <View style={styles.container}>
     <ScrollViewWrapper>
 
-      {/* <Header
-      logoSource = {require('../../assets/images/popcornia.png')}/> */}
+ 
 
     <View style = {styles.searchButton}>
         <TextInput
         backgroundColor = '#aa2525'
-        placeholder='Search'
+        placeholder='Ara'
         placeholderTextColor={'black'}
         style = {styles.searchInput}
         />
@@ -28,9 +27,9 @@ const HomeScreen = ({navigation}) => {
 
       <View style = {styles.categories}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',  }}>
-      <Text style = {{color: 'white', fontSize: 17}}>Categories</Text>
+      <Text style = {{color: 'white', fontSize: 17}}>Kategoriler</Text>
         <CustomButton 
-        buttonText = 'View All'
+        buttonText = 'Tümünü İncele'
         handleOnPress = {()=>navigation.navigate('Categories')}
         buttonColor 
         pressedButtonColor 
@@ -56,20 +55,17 @@ const HomeScreen = ({navigation}) => {
         horizontal
         showsHorizontalScrollIndicator = {false}
         pagingEnabled
-        data = {Movies}
+        data={Movies.filter(movie => parseInt(movie.id) <= 3)} // ID'si 3 ve altındaki filmleri filtrele data = {Movies} yazarsam eğer tüm filmler gelir
         keyExtractor={(item)=>item.id}
         renderItem={({item})=> (
+          <Pressable onPress={()=>navigation.navigate('MovieDetail', {Movies:item})}>
+
         <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} /> 
+          <Image source={item.image} style={styles.movieImage} />
           <Text style={styles.movieTitle}>{item.title}</Text> 
-          <CustomButton
-          buttonText = 'İncele'
-          handleOnPress = {()=>navigation.navigate('MovieDetail', {Movies:item})}
-          setWidth
-          buttonColor
-          pressedButtonColor
-          />
-        </View>)} />
+          <Text style={styles.movieCategory}>{item.category}</Text> 
+        </View>
+        </Pressable>)} />
       </View>
 
       <View style = {styles.cinemaCenter}>
@@ -127,22 +123,24 @@ const styles = StyleSheet.create({
   },
   movieItem: {
     margin: 10,
-    alignItems: 'center',
+
     backgroundColor: '#1e1e1e',
     padding: 10,
     borderRadius: 10,
     width: 200,
   },
   movieImage: {
-    width: '100%',
-    height: 300,
+    width: '90%',
+    height: 200,
     borderRadius: 10,
+    alignSelf: 'center'
   },
   movieTitle: {
     marginTop: 10,
     color: 'white',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: 'bold',
+    
   },
   filmContainer: {
     marginTop: 50,
@@ -150,7 +148,9 @@ const styles = StyleSheet.create({
   searchButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16
+    width: '90%',  // Sayfanın büyük bir kısmını kaplasın
+    alignSelf: 'center', // Yatayda ortala
+    marginTop: 20,
 
   },
   searchInput: {
@@ -202,6 +202,11 @@ const styles = StyleSheet.create({
     width: '60%',
     height: 250,
     borderRadius: 10,
+  },
+  movieCategory: {
+    color: 'rgba(255, 255, 255, 0.4)',
+    marginTop: 5,
+    fontSize: 11,
   }
 });
 

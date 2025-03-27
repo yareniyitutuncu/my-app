@@ -39,7 +39,7 @@ const LoginScreen = ({navigation}) => {
           buttonText= 'Login'
           setWidth = '200'
           buttonColor = '#aa2525'
-          handleOnPress = {()=> navigation.navigate('Home')}
+          handleOnPress = {()=> navigation.navigate('Main')}
           pressedButtonColor =  'darkred'
           
         />

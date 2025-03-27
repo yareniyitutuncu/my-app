@@ -51,7 +51,7 @@ const SignupScreen = ({navigation}) => {
         <CustomButton
         buttonText = 'Sign Up'
         setWidth = '200'
-        handleOnPress={()=>navigation.navigate('Home')}
+        handleOnPress={()=>navigation.navigate('Main')}
         buttonColor = '#aa2525'
         pressedButtonColor = 'darkred'
         />
