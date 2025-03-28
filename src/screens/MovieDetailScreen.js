@@ -1,16 +1,21 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Movies } from '../components';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import { CustomButton, Movies } from '../components';
 import { Ionicons } from '@expo/vector-icons';
 
-const MovieDetailScreen = ({ route }) => {
+const MovieDetailScreen = ({ route, navigation }) => {
   const { Movies } = route.params; 
   return (
     <View style={styles.container}>
 
-      <View>
-        <Ionicons name = 'caret-back-circle-outline' color = 'white' />
+
+   
+      <View style = {styles.icon}>
+        <Pressable onPress = {()=>navigation.goBack()}>
+        <Ionicons name = 'caret-back-circle-outline' color = 'white' size={28}/>
+        </Pressable>
       </View>
+
 
       <View>
       <Image source={Movies.image} style={styles.image} />
@@ -39,26 +44,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginTop: 20,
   },
-  description: {
-    color: 'white',
-    fontSize: 16,
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  genre: {
-    color: 'white',
-    fontSize: 16,
-    marginTop: 10,
-  },
-  actors: {
-    color: 'white',
-    fontSize: 16,
-    marginTop: 10,
-  },
   categories: {
     color: 'white',
     fontSize: 24,
     marginTop: 20,
+  },
+  icon : {
+    position: 'absolute',  
+    top: 30,               
+    left: 20, 
   }
 });
 
