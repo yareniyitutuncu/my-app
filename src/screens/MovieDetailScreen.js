@@ -14,6 +14,9 @@ const MovieDetailScreen = ({ route, navigation }) => {
         <Pressable onPress = {()=>navigation.goBack()}>
         <Ionicons name = 'caret-back-circle-outline' color = 'white' size={28}/>
         </Pressable>
+        <Pressable onPress={()=>navigation.navigate('FavoriteFilms')}>
+        <Ionicons name = 'heart' color = 'red' size={28} style = {{position: 'absolute', right: 10 }}/>
+        </Pressable>
       </View>
 
 
@@ -49,11 +52,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginTop: 20,
   },
-  icon : {
-    position: 'absolute',  
-    top: 30,               
-    left: 20, 
-  }
+  icon: {
+    position: 'absolute',
+    top: 30,
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Simgeleri sol ve sağa yaslar
+    width: '100%'  // Simgelerin tüm genişliği kullanması için
+  },
 });
 
 export default MovieDetailScreen;

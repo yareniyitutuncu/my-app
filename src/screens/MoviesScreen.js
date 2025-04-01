@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, FlatList, Pressable, Image, Dimensio
 import { Ionicons } from '@expo/vector-icons';
 import React  from 'react';
 import { ScrollViewWrapper, Movies, Categories,CustomButton } from '../components';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const {width} = Dimensions.get('screen');
 
@@ -10,9 +10,12 @@ const MoviesScreen = ({navigation}) => {
 
   const [selectedCity, setSelectedCity] = useState(null);
   
-  const filteredMovies = selectedCity 
-  ? Movies.filter(movie => movie.city === selectedCity) 
-  : Movies;
+  const filteredMovies = useCallback(() => (
+    selectedCity ? Movies.filter(movie => movie.city === selectedCity) : Movies
+  ), [selectedCity]);
+
+  const uniqueCategories = [...new Set(Movies.map(movie => movie.category))];
+  
 
 
   return (
@@ -22,23 +25,19 @@ const MoviesScreen = ({navigation}) => {
 
       
 
-      <View>
-      <View style = {styles.searchButton}>
-        <TextInput
-        backgroundColor = '#aa2525'
-        placeholder='Ara'
-        placeholderTextColor={'black'}
-        style = {styles.searchInput}
-        />
-        <Ionicons name = 'search' size={12} color={'white'} style = {styles.searchIcon}/>
-      </View>
-      </View>
+          <View style={styles.searchContainer}>
+          <TextInput
+            placeholder='Ara'
+            placeholderTextColor='black'
+            style={styles.searchInput}
+          />
+          <Ionicons name='search' size={16} color='black' style={styles.searchIcon} />
+          <Pressable onPress={() => navigation.navigate('Cities', { setSelectedCity })}>
+            <Ionicons name='location-outline' size={25} style={styles.locationIcon} />
+          </Pressable>
+        </View>
 
-      <View>
-        <Pressable onPress={()=>navigation.navigate('Cities', {setSelectedCity})}>
-          <Ionicons name = 'location-outline' size = {25} style = {{position: 'absolute', right: '29'}}/>
-        </Pressable>
-      </View>
+
 
       
       
@@ -65,101 +64,27 @@ const MoviesScreen = ({navigation}) => {
 
 
 
-        <View style = {styles.category1}>
-        <Text style = {{marginLeft: 13, color: '#FFFFFF'}}>{Movies.find(movie => movie.category === 'Romantik').category}</Text>
-        <FlatList
-        horizontal
-        showsHorizontalScrollIndicator = {false}
-        pagingEnabled
-        data={Movies.filter(movie => movie.category === 'Romantik')} // Sadece id'si '1' olan filmi al
-        keyExtractor={(item)=>item.id}
-        renderItem={({item})=> (
-          <Pressable onPress={()=>navigation.navigate('MovieDetail', {Movies:item})}>
-
-        <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} />
-          <Text style={styles.movieTitle}>{item.title}</Text> 
-          <Text style={styles.movieCategory}>{item.category}</Text> 
-        </View>
-        </Pressable>)} />
-        </View>
-
-        <View style = {styles.category1}>
-        <Text style = {{marginLeft: 13, color: '#FFFFFF'}}>{Movies.find(movie => movie.category === 'Fantastik').category}</Text>
-        <FlatList
-        horizontal
-        showsHorizontalScrollIndicator = {false}
-        pagingEnabled
-        data={Movies.filter(movie => movie.category === 'Fantastik')} 
-        keyExtractor={(item)=>item.id}
-        renderItem={({item})=> (
-          <Pressable onPress={()=>navigation.navigate('MovieDetail', {Movies:item})}>
-
-        <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} />
-          <Text style={styles.movieTitle}>{item.title}</Text> 
-          <Text style={styles.movieCategory}>{item.category}</Text> 
-        </View>
-        </Pressable>)} />
-        </View>
-
-        <View style = {styles.category1}>
-        <Text style = {{marginLeft: 13, color: '#FFFFFF'}}>{Movies.find(movie => movie.category === 'Aksiyon').category}</Text>
-          <FlatList
-        horizontal
-        showsHorizontalScrollIndicator = {false}
-        pagingEnabled
-        data={Movies.filter(movie => movie.category === 'Aksiyon')} 
-        keyExtractor={(item)=>item.id}
-        renderItem={({item})=> (
-          <Pressable onPress={()=>navigation.navigate('MovieDetail', {Movies:item})}>
-
-        <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} />
-          <Text style={styles.movieTitle}>{item.title}</Text> 
-          <Text style={styles.movieCategory}>{item.category}</Text> 
-        </View>
-        </Pressable>)} />
-        </View>
-
-        <View style = {styles.category1}>
-        <Text style = {{marginLeft: 13, color: '#FFFFFF'}}>{Movies.find(movie => movie.category === 'Casusluk').category}</Text>
-          <FlatList
-        horizontal
-        showsHorizontalScrollIndicator = {false}
-        pagingEnabled
-        data={Movies.filter(movie => movie.category === 'Casusluk')} 
-        keyExtractor={(item)=>item.id}
-        renderItem={({item})=> (
-          <Pressable onPress={()=>navigation.navigate('MovieDetail', {Movies:item})}>
-
-        <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} />
-          <Text style={styles.movieTitle}>{item.title}</Text> 
-          <Text style={styles.movieCategory}>{item.category}</Text> 
-        </View>
-        </Pressable>)} />
-        </View>
-
-        <View style = {styles.category1}>
-        <Text style = {{marginLeft: 13, color: '#FFFFFF'}}>{Movies.find(movie => movie.category === 'Dram').category}</Text>
-          <FlatList
-        horizontal
-        showsHorizontalScrollIndicator = {false}
-        pagingEnabled
-        data={Movies.filter(movie => movie.category === 'Dram')} 
-        keyExtractor={(item)=>item.id}
-        renderItem={({item})=> (
-          <Pressable onPress={()=>navigation.navigate('MovieDetail', {Movies:item})}>
-
-        <View style={styles.movieItem}>
-          <Image source={item.image} style={styles.movieImage} />
-          <Text style={styles.movieTitle}>{item.title}</Text> 
-          <Text style={styles.movieCategory}>{item.category}</Text> 
-        </View>
-        </Pressable>)} />
-        </View>
-
+      {uniqueCategories.map(category => (
+          <View key={category} style={styles.categorySection}>
+            {selectedCity === null && <Text style={styles.categoryText}>{category}</Text>}
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled
+              data={filteredMovies().filter(movie => movie.category === category)}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <Pressable onPress={() => navigation.navigate('MovieDetail', { Movies: item })}>
+                  <View style={styles.movieItem}>
+                    <Image source={item.image} style={styles.movieImage} />
+                    <Text style={styles.movieTitle}>{item.title}</Text>
+                    <Text style={styles.movieCategory}>{item.category}</Text>
+                  </View>
+                </Pressable>
+              )}
+            />
+          </View>
+        ))}
 
 
       
@@ -181,29 +106,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#2C2C2C'
-  },
-  searchButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',  // Sayfanın büyük bir kısmını kaplasın
-    alignSelf: 'center', // Yatayda ortala
-    marginTop: 20,
-
-  },
-  searchInput: {
-    paddingLeft: 30, // İkon için boşluk bırakıyoruz
-    backgroundColor: 'grey',
-    height: 40,
-    borderRadius: 5,
-    color: 'white',
-    width: '100%',
-    borderRadius: 10,
-  },
-  searchIcon: {
-    position: 'absolute',
-    left: 10, // İkonu soldan hizalayalım
-    top: 14, // Yükseklik ayarı
-    color: 'black'
   },
   category1: {
     marginTop: 20,
@@ -256,6 +158,33 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
   },
-  
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  searchInput: {
+    flex: 1,
+    backgroundColor: 'grey',
+    height: 40,
+    borderRadius: 10,
+    color: 'white',
+    paddingLeft: 30,
+  },
+  searchIcon: {
+    position: 'absolute',
+    left: 10,
+  },
+  locationIcon: {
+    marginLeft: 10,
+    color: 'white',
+  },
+  categoryText: {
+    marginLeft: 13,
+    color: '#FFFFFF',
+    fontSize: 13,
+  },
 
 })

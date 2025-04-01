@@ -106,6 +106,8 @@ const MainNavigator = () => {
         <Stack.Screen name = "Categories" component={CategoriesScreen} />
         <Stack.Screen name = "MovieDetail" component={MovieDetailScreen} />
         <Stack.Screen name = "Cities" component={CitiesScreen}/>
+        <Stack.Screen name = "FavoriteFilms" component={FavoriteFilmsScreen}/>
+
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>
