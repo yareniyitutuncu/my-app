@@ -145,16 +145,21 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     width: '95%',
     left: 10,
-    height: 100,
+    height: 110,
     justifyContent: 'center',
   },
   categoriesItem: {
     alignItems: 'center',
     marginRight: 15,
+    backgroundColor: 'rgba(128, 128, 128, 0.5)', // %70 saydam gri
+    width: '70',
+    height: 50,
+    justifyContent:'center',
+    borderRadius: 20
   },
   categoryTitle: {
     color: 'white',
-    fontSize: 12,
+    fontSize: 10,
     marginTop: 5,
     textAlign: 'center',
   },

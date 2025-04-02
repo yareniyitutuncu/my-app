@@ -9,6 +9,8 @@ import CategoriesScreen from "./CategoriesScreen";
 import MovieDetailScreen from "./MovieDetailScreen";
 import FavoriteFilmsScreen from "./FavoriteFilmsScreen"
 import CitiesScreen from "./CitiesScreen";
+import BuyTicketScreen from "./BuyTicketScreen";
+import ReservationScreen from "./ReservationScreen";
 
 export {
     LoginScreen,
@@ -21,5 +23,7 @@ export {
     CategoriesScreen,
     MovieDetailScreen,
     FavoriteFilmsScreen,
-    CitiesScreen
+    CitiesScreen,
+    BuyTicketScreen,
+    ReservationScreen
 }

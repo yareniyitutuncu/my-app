@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen } from '../screens/index';  
+import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen } from '../screens/index';  
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Header, CustomDrawer } from '../components';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -107,7 +107,8 @@ const MainNavigator = () => {
         <Stack.Screen name = "MovieDetail" component={MovieDetailScreen} />
         <Stack.Screen name = "Cities" component={CitiesScreen}/>
         <Stack.Screen name = "FavoriteFilms" component={FavoriteFilmsScreen}/>
-
+        <Stack.Screen name = "BuyTicket" component = {BuyTicketScreen}/>
+        <Stack.Screen name = "Reservation" component = {ReservationScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>
