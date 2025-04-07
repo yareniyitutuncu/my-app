@@ -1,23 +1,30 @@
+// src/screens/PaymentScreen.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { CustomButton } from '../components';
 
-const TicketScreen = ({ route }) => {
-  const { selectedSeats, totalPrice, kdvTutarı, genelToplam } = route.params || {};  // Eğer params undefined ise boş bir obje döner
+const PaymentScreen = ({ route, navigation }) => {
+  const { selectedSeats, totalPrice } = route.params;
+
+  const KDV_ORANI = 0.18;
+  const kdvTutarı = totalPrice * KDV_ORANI;
+  const genelToplam = totalPrice + kdvTutarı;
   
 
-  // Parametreler eksikse bir uyarı göster
-  if (!selectedSeats || !totalPrice || !kdvTutarı || !genelToplam) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Bilet Özeti Hatalı!</Text>
-        <Text style={styles.errorText}>Bilet bilgileri alınamadı. Lütfen tekrar deneyin.</Text>
-      </View>
-    );
-  }
+  const handleCompletePayment = () => {
+    // Bilet bilgilerini TicketScreen'e gönder
+    navigation.navigate('Tickets', {
+      selectedSeats,
+      totalPrice,
+      kdvTutarı,
+      genelToplam,
+    });
+  };
+  
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Bilet Özeti</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.header}>Ödeme Özeti</Text>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Seçilen Koltuklar:</Text>
@@ -38,20 +45,31 @@ const TicketScreen = ({ route }) => {
           <Text style={styles.label}>KDV (%18):</Text>
           <Text style={styles.value}>{kdvTutarı.toFixed(2)} TL</Text>
         </View>
-        <View style={[styles.priceRow, { borderTopWidth: 1, borderTopColor: '#fff', paddingTop: 10, marginTop: 10 }]} >
+        <View style={[styles.priceRow, { borderTopWidth: 1, borderTopColor: '#fff', paddingTop: 10, marginTop: 10 }]}>
           <Text style={[styles.label, { fontWeight: 'bold' }]}>Genel Toplam:</Text>
           <Text style={[styles.value, { fontWeight: 'bold' }]}>{genelToplam.toFixed(2)} TL</Text>
         </View>
       </View>
-    </View>
+
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <CustomButton
+          buttonText="Ödemeyi Tamamla"
+          setWidth="175"
+          handleOnPress={handleCompletePayment}  // Buton tıklama fonksiyonu
+          buttonColor="#aa2525"
+          pressedButtonColor="grey"
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     backgroundColor: '#2C2C2C',
+    justifyContent: 'flex-start',
   },
   header: {
     fontSize: 22,
@@ -59,12 +77,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 30,
     textAlign: 'center',
-  },
-  errorText: {
-    fontSize: 18,
-    color: 'red',
-    textAlign: 'center',
-    marginTop: 20,
   },
   section: {
     marginBottom: 20,
@@ -100,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TicketScreen;
+export default PaymentScreen;

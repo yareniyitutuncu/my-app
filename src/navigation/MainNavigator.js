@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen } from '../screens/index';  
+import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen, CinemasScreen, PaymentScreen } from '../screens/index';  
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Header, CustomDrawer } from '../components';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -28,7 +28,7 @@ const NavBar = ({navigation}) => {
 
       }}>
         
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color}/>,
@@ -39,7 +39,7 @@ const NavBar = ({navigation}) => {
       
        
  }}
-      />
+      /> */}
       <Tab.Screen
         name="Movies"
         component={MoviesScreen}
@@ -109,6 +109,10 @@ const MainNavigator = () => {
         <Stack.Screen name = "FavoriteFilms" component={FavoriteFilmsScreen}/>
         <Stack.Screen name = "BuyTicket" component = {BuyTicketScreen}/>
         <Stack.Screen name = "Reservation" component = {ReservationScreen}/>
+        <Stack.Screen name = "CinemasScreen" component={CinemasScreen}/>
+        <Stack.Screen name = "Payment" component={PaymentScreen}/>
+        <Stack.Screen name = "Tickets" component={NavBar}/>
+
       </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>

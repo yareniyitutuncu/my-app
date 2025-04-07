@@ -11,6 +11,8 @@ import FavoriteFilmsScreen from "./FavoriteFilmsScreen"
 import CitiesScreen from "./CitiesScreen";
 import BuyTicketScreen from "./BuyTicketScreen";
 import ReservationScreen from "./ReservationScreen";
+import CinemasScreen from "./CinemasScreen";
+import PaymentScreen from "./PaymentScreen";
 
 export {
     LoginScreen,
@@ -25,5 +27,7 @@ export {
     FavoriteFilmsScreen,
     CitiesScreen,
     BuyTicketScreen,
-    ReservationScreen
+    ReservationScreen,
+    CinemasScreen,
+    PaymentScreen
 }

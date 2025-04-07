@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Button, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CustomButton } from '../components';
 
-const BuyTicketScreen = ({ navigation }) => {
+const BuyTicketScreen = ({ route, navigation }) => {
   const [selectedTime, setSelectedTime] = useState(null);
+  const { Movies } = route.params;
 
   const data = [
     { id: '1', title: '21:00', date: '02.04.2025' },
@@ -18,7 +19,7 @@ const BuyTicketScreen = ({ navigation }) => {
 
   const handleReservation = () => {
     if (selectedTime) {
-      // Rezervasyon ekranına geçiş
+      // Navigate to Reservation screen with selected time
       navigation.navigate('Reservation', { time: selectedTime });
     } else {
       alert('Lütfen bir saat seçin');
@@ -29,7 +30,7 @@ const BuyTicketScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../assets/movies/beautyandbeast.png')}
+          source={Movies.image} // Make sure Movies.image is a valid image URI or require statement
           style={styles.image}
         />
         <LinearGradient
@@ -44,8 +45,8 @@ const BuyTicketScreen = ({ navigation }) => {
         horizontal
         data={data}
         renderItem={({ item }) => (
-          <TouchableOpacity 
-            style={[styles.card, selectedTime?.id === item.id && styles.cardSelected]} 
+          <TouchableOpacity
+            style={[styles.card, selectedTime?.id === item.id && styles.cardSelected]}
             onPress={() => handleSelectTime(item)}
           >
             <Text style={styles.cardTitle}>{item.title}</Text>
@@ -56,22 +57,18 @@ const BuyTicketScreen = ({ navigation }) => {
         contentContainerStyle={styles.flatListContainer}
       />
 
-      <View style = {{marginBottom: 29}}>
-      
+      <View style={{ marginBottom: 29 }}>
         <CustomButton
-        buttonText = 'Rezervasyon Yap'
-        setWidth = '150'
-        handleOnPress = {handleReservation}
-        buttonColor = '#aa2525'
-        pressedButtonColor = 'grey'
+          buttonText="Rezervasyon Yap"
+          setWidth="150"
+          handleOnPress={handleReservation}
+          buttonColor="#aa2525"
+          pressedButtonColor="grey"
         />
       </View>
-
     </View>
   );
 };
-
-
 
 export default BuyTicketScreen;
 
@@ -122,7 +119,7 @@ const styles = StyleSheet.create({
     marginRight: 19,
   },
   cardSelected: {
-    backgroundColor: '#5E5E5E', // Seçilen saat için farklı renk
+    backgroundColor: '#5E5E5E', // Selected time card
   },
   cardTitle: {
     fontSize: 18,
@@ -132,10 +129,5 @@ const styles = StyleSheet.create({
   cardDate: {
     fontSize: 14,
     color: '#A1A1A1',
-  },
-  selectedTime: {
-    fontSize: 20,
-    color: 'white',
-    marginTop: 20,
   },
 });

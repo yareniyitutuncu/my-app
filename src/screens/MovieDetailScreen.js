@@ -32,7 +32,7 @@ const MovieDetailScreen = ({ route, navigation }) => {
       <CustomButton
       buttonText = 'Bilet Al'
       setWidth = '110'
-      handleOnPress = {()=>navigation.navigate('BuyTicket')}
+      handleOnPress = {()=>navigation.navigate('BuyTicket', { Movies })}
       buttonColor = '#aa2525'
       pressedButtonColor = 'grey'
       />
