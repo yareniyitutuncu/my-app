@@ -2,14 +2,12 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const Categories = [
-    {id: '1', title: 'Aksiyon', icon: 'flame'},
-    {id: '2', title: 'Macera ', icon: 'rocket'},
-    {id: '3', title: 'Bilim Kurgu', icon: 'planet'},
-    {id: '4', title: 'Fantastik ', icon: 'cube'},
-    {id: '5', title: 'Komedi ', icon: 'happy'},
-    {id: '6', title: 'Romantik', icon: 'heart'},
-  
-  ]; 
+  {id: '1', title: 'Fantastik', icon: 'sparkles'},
+  {id: '2', title: 'Romantik', icon: 'heart'},
+  {id: '3', title: 'Dram', icon: 'sad'},
+  {id: '4', title: 'Aksiyon', icon: 'flash'},
+  {id: '5', title: 'Casusluk', icon: 'eye'},
+];
   
 
 export default Categories

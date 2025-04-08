@@ -29,7 +29,7 @@ const CitiesScreen = ({ navigation, route }) => {
         keyExtractor={(item) => item}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
-        showsVerticalScrollIndicator = {false}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <Pressable 
             onPress={() => {
@@ -49,34 +49,44 @@ const CitiesScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#101010',
     padding: 20,
   },
   allMoviesButton: {
-    padding: 15,
-    backgroundColor: '#555',
-    borderRadius: 12,
-    marginBottom: 20,
+    paddingVertical: 16,
+    backgroundColor: '#aa2525',
+    borderRadius: 15,
+    marginBottom: 30,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5,
   },
   allMoviesText: {
-    color: 'white',
-    fontSize: 18,
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
+    letterSpacing: 1.2,
   },
   cityBox: {
-    backgroundColor: '#333',
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    marginBottom: 15,
+    backgroundColor: 'grey',
+    paddingVertical: 22,
+    paddingHorizontal: 16,
+    borderRadius: 15,
+    marginBottom: 20,
     width: '48%',
     alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   cityText: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: '600',
   }
 });
 
