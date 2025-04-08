@@ -1,27 +1,25 @@
 import React from 'react';
-import { View, Text, FlatList, Pressable } from 'react-native';
+import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
 
 const CitiesScreen = ({ navigation, route }) => {
-  const cities = ['Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Konya', 'Gaziantep', 'Eskişehir', 'Diyarbakır', 'Kayseri', 'Mersin', 'Samsun', 'Trabzon', 'Malatya'];
+  const cities = [
+    'Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Konya',
+    'Gaziantep', 'Eskişehir', 'Diyarbakır', 'Kayseri', 'Mersin', 'Samsun',
+    'Trabzon', 'Malatya', 'Sakarya', 'Van', 'Balıkesir', 'Erzurum', 'Manisa'
+  ];
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'black', padding: 20 }}>
+    <View style={styles.container}>
       {/* Vizyondaki Tüm Filmleri Gör Seçeneği */}
       <Pressable 
         onPress={() => {
           route.params.setSelectedCity(null); // Şehir filtresini sıfırla
           navigation.goBack();
         }}
-        style={{
-          padding: 15,
-          backgroundColor: '#444',
-          borderRadius: 10,
-          marginBottom: 15,
-          alignItems: 'center',
-        }}
+        style={styles.allMoviesButton}
       >
-        <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
-          Vizyondaki Tüm Filmleri Gör
+        <Text style={styles.allMoviesText}>
+          🎬 Vizyondaki Tüm Filmleri Gör
         </Text>
       </Pressable>
 
@@ -29,20 +27,56 @@ const CitiesScreen = ({ navigation, route }) => {
       <FlatList
         data={cities}
         keyExtractor={(item) => item}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
         renderItem={({ item }) => (
           <Pressable 
             onPress={() => {
               route.params.setSelectedCity(item);
               navigation.goBack();
             }}
-            style={{ padding: 15, borderBottomWidth: 1, borderBottomColor: 'gray' }}
+            style={styles.cityBox}
           >
-            <Text style={{ color: 'white', fontSize: 18 }}>{item}</Text>
+            <Text style={styles.cityText}>{item}</Text>
           </Pressable>
         )}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    padding: 20,
+  },
+  allMoviesButton: {
+    padding: 15,
+    backgroundColor: '#555',
+    borderRadius: 12,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  allMoviesText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  cityBox: {
+    backgroundColor: '#333',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    marginBottom: 15,
+    width: '48%',
+    alignItems: 'center',
+  },
+  cityText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '500',
+  }
+});
 
 export default CitiesScreen;

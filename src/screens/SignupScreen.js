@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   thirdflex: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 100
+    marginBottom: 120
 
   }
 })

@@ -49,6 +49,7 @@ const NavBar = ({navigation}) => {
         onMenuPress = {()=>navigation.openDrawer(CustomDrawer)}
         />, }}
       />
+    
       <Tab.Screen
         name="Tickets"
         component={TicketsScreen}
@@ -77,7 +78,7 @@ const DrawerNavigator = () => {
       drawerContent={(props) => <CustomDrawer {...props} />} 
       screenOptions={{ headerShown: false }}
     >     
-     <Drawer.Screen name="Main" component={NavBar} />
+     <Drawer.Screen name="MainTabs" component={NavBar} />
      <Drawer.Screen name = "FavoriteFilms" component={FavoriteFilmsScreen}/>
 
     
@@ -111,7 +112,6 @@ const MainNavigator = () => {
         <Stack.Screen name = "Reservation" component = {ReservationScreen}/>
         <Stack.Screen name = "CinemasScreen" component={CinemasScreen}/>
         <Stack.Screen name = "Payment" component={PaymentScreen}/>
-        <Stack.Screen name = "Tickets" component={NavBar}/>
 
       </Stack.Navigator>
     </NavigationContainer>

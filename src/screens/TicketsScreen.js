@@ -1,73 +1,56 @@
+// src/screens/TicketsScreen.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 
-const TicketScreen = ({ route }) => {
-  const { selectedSeats, totalPrice, kdvTutarı, genelToplam } = route.params || {};  // Eğer params undefined ise boş bir obje döner
-  
+const TicketsScreen = ({ route }) => {
+  const { ticketInfo } = route.params || {};
 
-  // Parametreler eksikse bir uyarı göster
-  if (!selectedSeats || !totalPrice || !kdvTutarı || !genelToplam) {
+  if (!ticketInfo) {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Bilet Özeti Hatalı!</Text>
-        <Text style={styles.errorText}>Bilet bilgileri alınamadı. Lütfen tekrar deneyin.</Text>
+        <Text style={styles.text}>Bilet bilgisi bulunamadı.</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Bilet Özeti</Text>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Seçilen Koltuklar:</Text>
-        {selectedSeats.map((seat, index) => (
-          <Text key={index} style={styles.seatText}>🎟 Koltuk: {seat}</Text>
-        ))}
-      </View>
-
-      <View style={styles.divider} />
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Fiyatlandırma:</Text>
-        <View style={styles.priceRow}>
-          <Text style={styles.label}>Ara Toplam:</Text>
-          <Text style={styles.value}>{totalPrice.toFixed(2)} TL</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <ImageBackground
+        source={require('../../assets/cinemas/ticket-image.png')}
+        style={styles.ticketImage}
+        imageStyle={{ borderRadius: 15 }} // opsiyonel köşe yumuşatma
+      >
+        <View style={styles.overlay}>
+          <Text style={styles.sectionTitle}>Seçilen Koltuklar:</Text>
+          {ticketInfo.selectedSeats.map((seat, index) => (
+            <Text key={index} style={styles.seatText}>🎟 Koltuk: {seat}</Text>
+          ))}
+          <Text style={styles.sectionTitle}>Toplam: {ticketInfo.totalPrice.toFixed(2)} TL</Text>
         </View>
-        <View style={styles.priceRow}>
-          <Text style={styles.label}>KDV (%18):</Text>
-          <Text style={styles.value}>{kdvTutarı.toFixed(2)} TL</Text>
-        </View>
-        <View style={[styles.priceRow, { borderTopWidth: 1, borderTopColor: '#fff', paddingTop: 10, marginTop: 10 }]} >
-          <Text style={[styles.label, { fontWeight: 'bold' }]}>Genel Toplam:</Text>
-          <Text style={[styles.value, { fontWeight: 'bold' }]}>{genelToplam.toFixed(2)} TL</Text>
-        </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     backgroundColor: '#2C2C2C',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  header: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 30,
-    textAlign: 'center',
+  ticketImage: {
+    height: 333,
+    width: 472,
+    justifyContent: 'center', // içeriği dikeyde ortala
+    alignItems: 'center', // içeriği yatayda ortala
+    marginBottom: 20
   },
-  errorText: {
-    fontSize: 18,
-    color: 'red',
-    textAlign: 'center',
-    marginTop: 20,
-  },
-  section: {
-    marginBottom: 20,
+  overlay: {
+    padding: 20,
+    alignItems: 'center',
+    right: 50
   },
   sectionTitle: {
     fontSize: 18,
@@ -80,24 +63,10 @@ const styles = StyleSheet.create({
     color: '#ddd',
     marginBottom: 4,
   },
-  priceRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  label: {
+  text: {
     color: '#fff',
     fontSize: 16,
-  },
-  value: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#555',
-    marginVertical: 20,
   },
 });
 
-export default TicketScreen;
+export default TicketsScreen;

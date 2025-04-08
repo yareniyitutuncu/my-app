@@ -11,15 +11,7 @@ const PaymentScreen = ({ route, navigation }) => {
   const genelToplam = totalPrice + kdvTutarı;
   
 
-  const handleCompletePayment = () => {
-    // Bilet bilgilerini TicketScreen'e gönder
-    navigation.navigate('Tickets', {
-      selectedSeats,
-      totalPrice,
-      kdvTutarı,
-      genelToplam,
-    });
-  };
+
   
 
   return (
@@ -52,13 +44,27 @@ const PaymentScreen = ({ route, navigation }) => {
       </View>
 
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <CustomButton
-          buttonText="Ödemeyi Tamamla"
-          setWidth="175"
-          handleOnPress={handleCompletePayment}  // Buton tıklama fonksiyonu
-          buttonColor="#aa2525"
-          pressedButtonColor="grey"
-        />
+      <CustomButton
+  buttonText="Ödemeyi Tamamla"
+  setWidth="175"
+  handleOnPress={() => {
+    navigation.navigate('Main', {
+      screen: 'MainTabs',
+      params: {
+        screen: 'Tickets',
+        params: {
+          ticketInfo: {
+            selectedSeats: selectedSeats,
+            totalPrice: totalPrice,
+          }
+        }
+      }
+    });
+  }}
+  buttonColor="#aa2525"
+  pressedButtonColor="grey"
+/>
+
       </View>
     </ScrollView>
   );

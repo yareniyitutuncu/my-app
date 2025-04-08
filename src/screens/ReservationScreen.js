@@ -19,6 +19,7 @@ const ReservationScreen = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const navigation = useNavigation();
 
+
   const toggleSeatSelection = (row, col) => {
     const seatId = `${row}-${col}`;
     if (reservedSeats.includes(seatId)) return;
