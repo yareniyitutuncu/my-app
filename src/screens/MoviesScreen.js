@@ -10,6 +10,8 @@ const MoviesScreen = ({navigation}) => {
 
   const [selectedCity, setSelectedCity] = useState(null);
   
+  
+  
   const filteredMovies = useCallback(() => (
     selectedCity ? Movies.filter(movie => movie.city === selectedCity) : Movies
   ), [selectedCity]);
@@ -28,10 +30,10 @@ const MoviesScreen = ({navigation}) => {
           <View style={styles.searchContainer}>
           <TextInput
             placeholder='Ara'
-            placeholderTextColor='black'
+            placeholderTextColor='white'
             style={styles.searchInput}
           />
-          <Ionicons name='search' size={16} color='black' style={styles.searchIcon} />
+          <Ionicons name='search' size={16} color='white' style={styles.searchIcon} />
           <Pressable onPress={() => navigation.navigate('Cities', { setSelectedCity })}>
             <Ionicons name='location-outline' size={25} style={styles.locationIcon} />
           </Pressable>

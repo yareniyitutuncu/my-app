@@ -29,6 +29,7 @@ const CitiesScreen = ({ navigation, route }) => {
         keyExtractor={(item) => item}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
+        showsVerticalScrollIndicator = {false}
         renderItem={({ item }) => (
           <Pressable 
             onPress={() => {

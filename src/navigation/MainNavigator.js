@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen, CinemasScreen, PaymentScreen } from '../screens/index';  
+import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen, CinemasScreen, PaymentScreen, EditProfileScreen, NearbyCinemasScreen, SettingsScreen, ContactScreen } from '../screens/index';  
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Header, CustomDrawer } from '../components';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -19,7 +19,7 @@ const NavBar = ({navigation}) => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: { backgroundColor: 'black', height: 60 },
+        tabBarStyle: { backgroundColor: '#141313', height: 65 },
         tabBarActiveTintColor: '#aa2525',
         tabBarInactiveTintColor: 'white',
         tabBarLabelStyle: { fontSize: 10 },
@@ -80,6 +80,11 @@ const DrawerNavigator = () => {
     >     
      <Drawer.Screen name="MainTabs" component={NavBar} />
      <Drawer.Screen name = "FavoriteFilms" component={FavoriteFilmsScreen}/>
+     <Drawer.Screen name = "NearbyCinemas" component={NearbyCinemasScreen}/>
+     <Drawer.Screen name = "Settings" component={SettingsScreen}/>
+     <Drawer.Screen name = "EditProfile" component={EditProfileScreen}/>
+     <Drawer.Screen name = "Contact" component={ContactScreen}/>
+
 
     
     </Drawer.Navigator>
@@ -110,8 +115,14 @@ const MainNavigator = () => {
         <Stack.Screen name = "FavoriteFilms" component={FavoriteFilmsScreen}/>
         <Stack.Screen name = "BuyTicket" component = {BuyTicketScreen}/>
         <Stack.Screen name = "Reservation" component = {ReservationScreen}/>
-        <Stack.Screen name = "CinemasScreen" component={CinemasScreen}/>
+        <Stack.Screen name = "Cinemas" component={CinemasScreen}/>
         <Stack.Screen name = "Payment" component={PaymentScreen}/>
+        <Stack.Screen name = "EditProfile" component={EditProfileScreen}/>
+        <Stack.Screen name = "NearbyCinemas" component={NearbyCinemasScreen}/>
+        <Stack.Screen name = "Settings" component={SettingsScreen}/>
+        <Stack.Screen name = "Contact" component={ContactScreen}/>
+
+
 
       </Stack.Navigator>
     </NavigationContainer>

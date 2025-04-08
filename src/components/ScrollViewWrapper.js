@@ -4,7 +4,10 @@ import { ScrollView, StyleSheet } from 'react-native';
 
 const ScrollViewWrapper = ({ children }) => {
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <ScrollView 
+      contentContainerStyle={styles.scrollContainer}
+      showsVerticalScrollIndicator={false} // Kaydırma çubuğunu gizler
+    >
       {children}
     </ScrollView>
   );

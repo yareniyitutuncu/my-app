@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
@@ -17,6 +17,30 @@ const CustomDrawer = (props) => {
 
       <View style = {{flexDirection: 'row'}}>
     <CustomButton
+    icon = 'settings'
+    color = 'white'
+    style = {styles.favoritesButton}
+    buttonText= 'Ayarlar'
+    handleOnPress = {()=>props.navigation.navigate('Settings')}
+    setWidth = '300'
+    buttonColor = '#aa2525'
+    pressedButtonColor
+    />
+      </View>
+      <View style = {{flexDirection: 'row'}}>
+    <CustomButton
+    icon = 'person'
+    color = 'white'
+    style = {styles.favoritesButton}
+    buttonText= 'Profili Düzenle'
+    handleOnPress = {()=>props.navigation.navigate('EditProfile')}
+    setWidth = '300'
+    buttonColor = '#aa2525'
+    pressedButtonColor
+    />
+      </View>
+      <View style = {{flexDirection: 'row'}}>
+    <CustomButton
     icon = 'heart'
     color = 'white'
     style = {styles.favoritesButton}
@@ -27,6 +51,34 @@ const CustomDrawer = (props) => {
     pressedButtonColor
     />
       </View>
+      <View style = {{flexDirection: 'row'}}>
+    <CustomButton
+    icon = 'location'
+    color = 'white'
+    style = {styles.favoritesButton}
+    buttonText= 'Yakınınızdaki Sinemalar'
+    handleOnPress = {()=>props.navigation.navigate('NearbyCinemas')}
+    setWidth = '300'
+    buttonColor = '#aa2525'
+    pressedButtonColor
+    />
+      </View>
+
+
+    <View > 
+    <Pressable onPress={()=>props.navigation.navigate('Contact')} >
+      <Text style = {styles.contact}>Bizimle İletişime Geçin</Text>
+    </Pressable>
+    </View>
+
+    <View > 
+    <Pressable onPress={()=>props.navigation.navigate('Contact')} >
+      <Text style = {styles.exit}>Çıkış Yap</Text>
+    </Pressable>
+    </View>
+
+
+      
     </DrawerContentScrollView>
   );
 };
@@ -59,9 +111,19 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 10,
   },
-  favoritesButton: {
-    
+  contact: {
+    color: 'white',
+    marginTop: 30,
+    left: 20,
+    fontSize: 13
+  },
+  exit: {
+    color: 'white',
+    marginTop: 20,
+    left: 20,
+    fontSize: 13
   }
+
 });
 
 export default CustomDrawer;

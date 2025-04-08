@@ -3,7 +3,7 @@ import React from 'react'
 
 const FavoriteFilmsScreen = () => {
   return (
-    <View>
+    <View style = {styles.container}>
       <Text>FavoriteFilmsScreen</Text>
     </View>
   )
@@ -11,4 +11,11 @@ const FavoriteFilmsScreen = () => {
 
 export default FavoriteFilmsScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#2C2C2C',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+})

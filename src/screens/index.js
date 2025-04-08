@@ -13,6 +13,10 @@ import BuyTicketScreen from "./BuyTicketScreen";
 import ReservationScreen from "./ReservationScreen";
 import CinemasScreen from "./CinemasScreen";
 import PaymentScreen from "./PaymentScreen";
+import SettingsScreen from "./SettingsScreen";
+import EditProfileScreen from "./EditProfileScreen";
+import NearbyCinemasScreen from "./NearbyCinemasScreen";
+import ContactScreen from "./ContactScreen";
 
 export {
     LoginScreen,
@@ -29,5 +33,9 @@ export {
     BuyTicketScreen,
     ReservationScreen,
     CinemasScreen,
-    PaymentScreen
+    PaymentScreen,
+    SettingsScreen,
+    EditProfileScreen,
+    NearbyCinemasScreen,
+    ContactScreen
 }
