@@ -9,12 +9,14 @@ const {width} = Dimensions.get('screen');
 const MoviesScreen = ({navigation}) => {
 
   const [selectedCity, setSelectedCity] = useState(null);
-  
+  const [selectedCategory, setSelectedCategory] = useState(null);
   
   
   const filteredMovies = useCallback(() => (
     selectedCity ? Movies.filter(movie => movie.city === selectedCity) : Movies
   ), [selectedCity]);
+
+
 
   const uniqueCategories = [...new Set(Movies.map(movie => movie.category))];
   
@@ -24,8 +26,6 @@ const MoviesScreen = ({navigation}) => {
     <View style = {styles.container}>
           <ScrollViewWrapper>
 
-
-      
 
           <View style={styles.searchContainer}>
           <TextInput
@@ -38,11 +38,6 @@ const MoviesScreen = ({navigation}) => {
             <Ionicons name='location-outline' size={25} style={styles.locationIcon} />
           </Pressable>
         </View>
-
-
-
-      
-      
 
 
       <View style = {styles.categories}>
@@ -66,27 +61,36 @@ const MoviesScreen = ({navigation}) => {
 
 
 
-      {uniqueCategories.map(category => (
-          <View key={category} style={styles.categorySection}>
-            {selectedCity === null && <Text style={styles.categoryText}>{category}</Text>}
-            <FlatList
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled
-              data={filteredMovies().filter(movie => movie.category === category)}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <Pressable onPress={() => navigation.navigate('MovieDetail', { Movies: item })}>
-                  <View style={styles.movieItem}>
-                    <Image source={item.image} style={styles.movieImage} />
-                    <Text style={styles.movieTitle}>{item.title}</Text>
-                    <Text style={styles.movieCategory}>{item.category}</Text>
-                  </View>
-                </Pressable>
-              )}
-            />
-          </View>
-        ))}
+      {uniqueCategories.map(category => {
+  const moviesInCategory = filteredMovies().filter(movie => movie.category === category);
+  
+  if (moviesInCategory.length === 0) {
+    return null;
+  }
+
+  return (
+    <View key={category} style={styles.categorySection}>
+      <Text style={styles.categoryText}>{category}</Text>
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled
+        data={moviesInCategory}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => navigation.navigate('MovieDetail', { Movies: item })}>
+            <View style={styles.movieItem}>
+              <Image source={item.image} style={styles.movieImage} />
+              <Text style={styles.movieTitle}>{item.title}</Text>
+              <Text style={styles.movieCategory}>{item.category}</Text>
+            </View>
+          </Pressable>
+        )}
+      />
+    </View>
+  );
+})}
+
 
 
       

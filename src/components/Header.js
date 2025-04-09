@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Header = ({ profileImageSource, onMenuPress }) => {
+const Header = ({ profileImageSource, onMenuPress, iconImageSource }) => {
   return (
     <View style={styles.container}>
       
@@ -11,6 +11,13 @@ const Header = ({ profileImageSource, onMenuPress }) => {
         <TouchableOpacity onPress={onMenuPress}>
           <Ionicons name="menu" size={30} color="white" />
         </TouchableOpacity>
+      </View>
+
+      <View style = {styles.middleContainer}>
+      <Image
+            source={iconImageSource} 
+            style={styles.iconImage}
+          />
       </View>
 
       {/* Sağ Alan: Profil Fotoğrafı */}
@@ -48,6 +55,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     justifyContent: 'center',
+  },
+  middleContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  iconImage: {
+    width: 130,
+    height: 23
   },
   profileImage: {
     width: 40,

@@ -15,19 +15,7 @@ const CustomDrawer = (props) => {
         <Text style={styles.profileName}>Yaren İyitütüncü</Text>
       </View>
 
-      <View style = {{flexDirection: 'row'}}>
-    <CustomButton
-    icon = 'settings'
-    color = 'white'
-    style = {styles.favoritesButton}
-    buttonText= 'Ayarlar'
-    handleOnPress = {()=>props.navigation.navigate('Settings')}
-    setWidth = '300'
-    buttonColor = '#aa2525'
-    pressedButtonColor
-    />
-      </View>
-      <View style = {{flexDirection: 'row'}}>
+    <View style = {{flexDirection: 'row'}}>
     <CustomButton
     icon = 'person'
     color = 'white'
@@ -38,8 +26,22 @@ const CustomDrawer = (props) => {
     buttonColor = '#aa2525'
     pressedButtonColor
     />
-      </View>
-      <View style = {{flexDirection: 'row'}}>
+    </View>
+
+    <View style = {{flexDirection: 'row'}}>
+    <CustomButton
+    icon = 'settings'
+    color = 'white'
+    style = {styles.favoritesButton}
+    buttonText= 'Ayarlar'
+    handleOnPress = {()=>props.navigation.navigate('Settings')}
+    setWidth = '300'
+    buttonColor = '#aa2525'
+    pressedButtonColor
+    />
+    </View>
+
+    <View style = {{flexDirection: 'row'}}>
     <CustomButton
     icon = 'heart'
     color = 'white'
@@ -50,8 +52,9 @@ const CustomDrawer = (props) => {
     buttonColor = '#aa2525'
     pressedButtonColor
     />
-      </View>
-      <View style = {{flexDirection: 'row'}}>
+    </View>
+
+    <View style = {{flexDirection: 'row'}}>
     <CustomButton
     icon = 'location'
     color = 'white'
@@ -62,7 +65,7 @@ const CustomDrawer = (props) => {
     buttonColor = '#aa2525'
     pressedButtonColor
     />
-      </View>
+    </View>
 
 
     <View > 
@@ -122,8 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     left: 20,
     fontSize: 13
-  }
-
+  },
 });
 
 export default CustomDrawer;

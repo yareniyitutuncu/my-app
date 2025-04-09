@@ -45,8 +45,8 @@ const NavBar = ({navigation}) => {
         component={MoviesScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="film" size={size} color={color} />,
         header: ()=> <Header
-        profileImageSource = {require('../../assets/movies/avengers.jpg')}
         onMenuPress = {()=>navigation.openDrawer(CustomDrawer)}
+        iconImageSource={require('../../assets/images/duzpopcornia.png')}
         />, }}
       />
     
@@ -55,8 +55,8 @@ const NavBar = ({navigation}) => {
         component={TicketsScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="ticket" size={size} color={color} />,
         header: ()=> <Header
-        profileImageSource = {require('../../assets/movies/avengers.jpg')}
         onMenuPress = {()=>navigation.openDrawer(CustomDrawer)}
+        iconImageSource={require('../../assets/images/duzpopcornia.png')}
         />, }}
       />
       <Tab.Screen
@@ -64,8 +64,8 @@ const NavBar = ({navigation}) => {
         component={ProfileScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
         header: ()=> <Header
-        profileImageSource = {require('../../assets/movies/avengers.jpg')}
         onMenuPress = {()=>navigation.openDrawer(CustomDrawer)}
+        iconImageSource={require('../../assets/images/duzpopcornia.png')}
         />, }}
       />
     </Tab.Navigator>

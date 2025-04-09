@@ -25,6 +25,16 @@ const ProfileScreen = ({navigation}) => {
       {/* Ayarlar */}
       <View style={styles.menuSection}>
 
+      <CustomButton
+        buttonText = 'Profili Düzenle'
+        setWidth  = '360'
+        handleOnPress = {()=>navigation.navigate('EditProfile')}
+        buttonColor = 'grey'
+        pressedButtonColor 
+        icon = 'person'
+        iconColor = 'white'
+        />
+
         <CustomButton
         buttonText = 'Ayarlar'
         setWidth  = '360'
@@ -35,16 +45,6 @@ const ProfileScreen = ({navigation}) => {
         iconColor = 'white'
         />
 
-
-        <CustomButton
-        buttonText = 'Profili Düzenle'
-        setWidth  = '360'
-        handleOnPress = {()=>navigation.navigate('EditProfile')}
-        buttonColor = 'grey'
-        pressedButtonColor 
-        icon = 'person'
-        iconColor = 'white'
-        />
 
         <CustomButton
         buttonText = 'Favoriler'
