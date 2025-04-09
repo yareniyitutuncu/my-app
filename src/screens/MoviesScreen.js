@@ -1,8 +1,7 @@
 import { StyleSheet, Text, View, TextInput, FlatList, Pressable, Image, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import React  from 'react';
-import { ScrollViewWrapper, Movies, Categories, CustomButton } from '../components';
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import { ScrollViewWrapper, Movies, Categories } from '../components';
 
 const { width } = Dimensions.get('screen');
 
@@ -11,6 +10,7 @@ const MoviesScreen = ({ navigation }) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // Filtreleme işlemi
   const filteredMovies = useCallback(() => {
     let filtered = Movies;
     
@@ -45,11 +45,10 @@ const MoviesScreen = ({ navigation }) => {
 
         <View style={styles.categories}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ color: 'white', marginBottom: 19, marginTop: 10 }}>Kategoriler</Text>
+            <Text style={{ color: 'white', marginBottom: 19, marginTop: 10, fontSize: 13 }}>Kategoriler</Text>
             <Pressable  
-            onPress={() => {
-            setSelectedCategory(null); }}>
-              <Text style={{ color: 'white', marginBottom: 19, marginTop: 10 }}>Tümünü Gör</Text>
+            onPress={() => setSelectedCategory(null)}>
+              <Text style={{ color: 'white', marginBottom: 19, marginTop: 10, fontSize: 13 }}>Tümünü Gör</Text>
             </Pressable>
           </View>
 
@@ -61,7 +60,7 @@ const MoviesScreen = ({ navigation }) => {
             renderItem={({ item }) => (
               <Pressable onPress={() => setSelectedCategory(item.title)}>
                 <View style={styles.categoriesItem}>
-                <Ionicons name={item.icon} size={17} color="white" />
+                  <Ionicons name={item.icon} size={17} color="white" />
                   <Text style={styles.categoryTitle}>{item.title}</Text>
                 </View>
               </Pressable>
@@ -69,7 +68,7 @@ const MoviesScreen = ({ navigation }) => {
           />
         </View>
 
-        {/* Filmleri Kategorilere göre filtreleyerek listele */}
+        {/* Kategorilere göre filtrelenmiş filmler */}
         {uniqueCategories.map(category => {
           const moviesInCategory = filteredMovies().filter(movie => movie.category === category);
           
@@ -102,20 +101,16 @@ const MoviesScreen = ({ navigation }) => {
 
       </ScrollViewWrapper>
     </View>
-  )
-}
+  );
+};
 
-export default MoviesScreen
+export default MoviesScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#2C2C2C'
-  },
-  category1: {
-    marginTop: 20,
-    marginBottom: 15
+    backgroundColor: '#2C2C2C',
   },
   movieItem: {
     margin: 10,
@@ -123,13 +118,13 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: 200,
-    height: 320
+    height: 320,
   },
   movieImage: {
     width: '90%',
     height: 200,
     borderRadius: 10,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   movieTitle: {
     marginTop: 10,
@@ -160,7 +155,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 50,
     justifyContent: 'center',
-    borderRadius: 20
+    borderRadius: 20,
   },
   categoryTitle: {
     color: 'white',
@@ -196,4 +191,4 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
   },
-})
+});
