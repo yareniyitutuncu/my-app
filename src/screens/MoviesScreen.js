@@ -1,33 +1,37 @@
 import { StyleSheet, Text, View, TextInput, FlatList, Pressable, Image, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import React  from 'react';
-import { ScrollViewWrapper, Movies, Categories,CustomButton } from '../components';
+import { ScrollViewWrapper, Movies, Categories, CustomButton } from '../components';
 import { useState, useCallback } from 'react';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-const MoviesScreen = ({navigation}) => {
+const MoviesScreen = ({ navigation }) => {
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  
-  
-  const filteredMovies = useCallback(() => (
-    selectedCity ? Movies.filter(movie => movie.city === selectedCity) : Movies
-  ), [selectedCity]);
 
+  const filteredMovies = useCallback(() => {
+    let filtered = Movies;
+    
+    if (selectedCity) {
+      filtered = filtered.filter(movie => movie.city === selectedCity);
+    }
+    
+    if (selectedCategory) {
+      filtered = filtered.filter(movie => movie.category === selectedCategory);
+    }
 
+    return filtered;
+  }, [selectedCity, selectedCategory]);
 
   const uniqueCategories = [...new Set(Movies.map(movie => movie.category))];
-  
-
 
   return (
-    <View style = {styles.container}>
-          <ScrollViewWrapper>
+    <View style={styles.container}>
+      <ScrollViewWrapper>
 
-
-          <View style={styles.searchContainer}>
+        <View style={styles.searchContainer}>
           <TextInput
             placeholder='Ara'
             placeholderTextColor='white'
@@ -39,68 +43,64 @@ const MoviesScreen = ({navigation}) => {
           </Pressable>
         </View>
 
-
-      <View style = {styles.categories}>
-      <Text style = {{color: 'white', marginBottom: '19', marginTop: '10'}}>Kategoriler</Text>
-        <FlatList
-        showsHorizontalScrollIndicator = {false}
-        horizontal
-        data = {Categories}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.categoriesItem}>
-            <Ionicons name={item.icon} size={17} color="white" />
-            <Text style = {styles.categoryTitle}>{item.title}</Text>
+        <View style={styles.categories}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ color: 'white', marginBottom: 19, marginTop: 10 }}>Kategoriler</Text>
+            <Pressable  
+            onPress={() => {
+            setSelectedCategory(null); }}>
+              <Text style={{ color: 'white', marginBottom: 19, marginTop: 10 }}>Tümünü Gör</Text>
+            </Pressable>
           </View>
-        )}
-        
-        />
-      </View>
 
-      
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            data={Categories}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => setSelectedCategory(item.title)}>
+                <View style={styles.categoriesItem}>
+                <Ionicons name={item.icon} size={17} color="white" />
+                  <Text style={styles.categoryTitle}>{item.title}</Text>
+                </View>
+              </Pressable>
+            )}
+          />
+        </View>
 
+        {/* Filmleri Kategorilere göre filtreleyerek listele */}
+        {uniqueCategories.map(category => {
+          const moviesInCategory = filteredMovies().filter(movie => movie.category === category);
+          
+          if (moviesInCategory.length === 0) {
+            return null;
+          }
 
-
-      {uniqueCategories.map(category => {
-  const moviesInCategory = filteredMovies().filter(movie => movie.category === category);
-  
-  if (moviesInCategory.length === 0) {
-    return null;
-  }
-
-  return (
-    <View key={category} style={styles.categorySection}>
-      <Text style={styles.categoryText}>{category}</Text>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled
-        data={moviesInCategory}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Pressable onPress={() => navigation.navigate('MovieDetail', { Movies: item })}>
-            <View style={styles.movieItem}>
-              <Image source={item.image} style={styles.movieImage} />
-              <Text style={styles.movieTitle}>{item.title}</Text>
-              <Text style={styles.movieCategory}>{item.category}</Text>
+          return (
+            <View key={category} style={styles.categorySection}>
+              <Text style={styles.categoryText}>{category}</Text>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                data={moviesInCategory}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <Pressable onPress={() => navigation.navigate('MovieDetail', { Movies: item })}>
+                    <View style={styles.movieItem}>
+                      <Image source={item.image} style={styles.movieImage} />
+                      <Text style={styles.movieTitle}>{item.title}</Text>
+                      <Text style={styles.movieCategory}>{item.category}</Text>
+                    </View>
+                  </Pressable>
+                )}
+              />
             </View>
-          </Pressable>
-        )}
-      />
-    </View>
-  );
-})}
+          );
+        })}
 
-
-
-      
-
-
-
-
-
-    </ScrollViewWrapper>
-
+      </ScrollViewWrapper>
     </View>
   )
 }
@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     fontWeight: 'bold',
-    
   },
   movieCategory: {
     color: 'rgba(255, 255, 255, 0.4)',
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
   categories: {
     marginVertical: 26,
     paddingHorizontal: 15,
-    backgroundColor: '#333', // Arka plan rengi koyu
+    backgroundColor: '#333',
     borderRadius: 10,
     paddingBottom: 5,
     width: '95%',
@@ -157,10 +156,10 @@ const styles = StyleSheet.create({
   categoriesItem: {
     alignItems: 'center',
     marginRight: 15,
-    backgroundColor: 'rgba(128, 128, 128, 0.5)', // %70 saydam gri
-    width: '70',
+    backgroundColor: 'rgba(128, 128, 128, 0.5)', 
+    width: 70,
     height: 50,
-    justifyContent:'center',
+    justifyContent: 'center',
     borderRadius: 20
   },
   categoryTitle: {
@@ -197,5 +196,4 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
   },
-
 })
