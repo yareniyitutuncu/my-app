@@ -7,7 +7,7 @@ import Categories from "./Categories";
 import Cinemas from "./Cinemas";
 import CustomDrawer from "./CustomDrawer";
 import Cities from "./Cities";
-import Header2 from "./Header";
+import SecondHeader from "./Header";
 
 export {
     CustomText,
@@ -19,5 +19,5 @@ export {
     Cinemas,
     CustomDrawer,
     Cities,
-    Header2
+    SecondHeader
 }

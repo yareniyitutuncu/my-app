@@ -1,10 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import SecondHeader from '../components/SecondHeader'
 
-const SettingsScreen = () => {
+const SettingsScreen = ({navigation}) => {
   return (
     <View style = {styles.container}>
-      <Text>SettingsScreen</Text>
+
+      <View style = {styles.header}>
+      <SecondHeader
+      onPress={()=>navigation.goBack()}
+      pageName='Ayarlar'/>
+      </View>
+
     </View>
   )
 }
@@ -12,10 +19,15 @@ const SettingsScreen = () => {
 export default SettingsScreen
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#2C2C2C',
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
+  container: {
+    flex: 1,
+    backgroundColor: '#2C2C2C',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  header: {
+    flex: 1,
+    height: '100%',
+    width: '100%'
+  },
 })
