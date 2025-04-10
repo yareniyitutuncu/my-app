@@ -1,24 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CustomButton } from '../components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MovieDetailScreen = ({ route, navigation }) => {
   const { Movies } = route.params;
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+  useEffect(() => {
+    // Favori filmleri AsyncStorage'dan yükleyin
+    const loadFavorites = async () => {
+      try {
+        const storedFavorites = await AsyncStorage.getItem('favoriteMovies');
+        if (storedFavorites) {
+          setFavoriteMovies(JSON.parse(storedFavorites));
+        }
+      } catch (error) {
+        console.error('Error loading favorite movies:', error);
+      }
+    };
+    loadFavorites();
+  }, []);
+
+  const handleFavoriteToggle = async (movie) => {
+    let updatedFavorites;
+    if (!favoriteMovies.some(favMovie => favMovie.id === movie.id)) {
+      // Favoriye ekleme
+      updatedFavorites = [...favoriteMovies, movie];
+    } else {
+      // Favoriden çıkarma
+      updatedFavorites = favoriteMovies.filter(favMovie => favMovie.id !== movie.id);
+    }
+
+    // Favori filmleri AsyncStorage'a kaydedin
+    try {
+      await AsyncStorage.setItem('favoriteMovies', JSON.stringify(updatedFavorites));
+      setFavoriteMovies(updatedFavorites);
+    } catch (error) {
+      console.error('Error saving favorite movies:', error);
+    }
+  };
+
+  const isFavorite = favoriteMovies.some(favMovie => favMovie.id === Movies.id);
 
   return (
     <View style={styles.container}>
-      {/* Back and Favorite icons */}
       <View style={styles.icon}>
         <Pressable onPress={() => navigation.goBack()}>
           <Ionicons name="caret-back-circle-outline" color="white" size={28} />
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('FavoriteFilms')}>
-          <Ionicons name="heart" color="red" size={28} style={styles.favoriteIcon} />
+        <Pressable onPress={() => handleFavoriteToggle(Movies)}>
+          <Ionicons 
+            name="heart" 
+            color={isFavorite ? 'red' : 'white'} 
+            size={28} 
+            style={styles.favoriteIcon} 
+          />
         </Pressable>
       </View>
 
-      {/* Image Container */}
       <View style={styles.imageWrapper}>
         <View style={styles.imageContainer}>
           <Image source={Movies.image} style={styles.image} />
@@ -30,14 +71,12 @@ const MovieDetailScreen = ({ route, navigation }) => {
       </View>
 
       <CustomButton
-      buttonText = 'Bilet Al'
-      setWidth = '110'
-      handleOnPress = {()=>navigation.navigate('BuyTicket', { Movies })}
-      buttonColor = '#aa2525'
-      pressedButtonColor = 'grey'
+        buttonText="Bilet Al"
+        setWidth="110"
+        handleOnPress={() => navigation.navigate('BuyTicket', { Movies })}
+        buttonColor="#aa2525"
+        pressedButtonColor="grey"
       />
-
-
     </View>
   );
 };
@@ -65,7 +104,7 @@ const styles = StyleSheet.create({
   imageWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 15,  // Başlık ve ikonlar için boşluk bırakmak
+    marginTop: 15,
   },
   imageContainer: {
     backgroundColor: '#1e1e1e',
@@ -74,7 +113,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.3,
     shadowRadius: 10,
-    elevation: 5,  // Gölgelendirme efekti
+    elevation: 5,
   },
   image: {
     width: 300,

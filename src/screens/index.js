@@ -17,6 +17,7 @@ import SettingsScreen from "./SettingsScreen";
 import EditProfileScreen from "./EditProfileScreen";
 import NearbyCinemasScreen from "./NearbyCinemasScreen";
 import ContactScreen from "./ContactScreen";
+import ChooseSalonScreen from "./ChooseSalonScreen";
 
 export {
     LoginScreen,
@@ -37,5 +38,6 @@ export {
     SettingsScreen,
     EditProfileScreen,
     NearbyCinemasScreen,
-    ContactScreen
+    ContactScreen,
+    ChooseSalonScreen
 }

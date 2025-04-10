@@ -1,27 +1,30 @@
-// BuyTicketScreen.js
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CustomButton } from '../components';
 
-const BuyTicketScreen = ({ route, navigation }) => {
-  const [selectedTime, setSelectedTime] = useState(null);
+const ChooseSalonScreen = ({ route, navigation }) => {
+  const { selectedTime } = route.params;
   const { Movies } = route.params;
 
-  const timeData = [
-    { id: '1', title: '21:00', date: '02.04.2025' },
-    { id: '2', title: '23:00', date: '03.04.2025' },
-    { id: '3', title: '01:00', date: '04.04.2025' },
+  const hallData = [
+    { id: 'h1', name: 'Salon 1' },
+    { id: 'h2', name: 'Salon 2' },
+    { id: 'h3', name: 'VIP Salon' },
   ];
 
+  const [selectedHall, setSelectedHall] = useState(null);
+
   const handleReservation = () => {
-    if (!selectedTime) {
-      Alert.alert('Uyarı', 'Lütfen bir saat seçin');
+    if (!selectedHall) {
+      Alert.alert('Uyarı', 'Lütfen bir salon seçin');
       return;
     }
 
-    // Zaman seçildiğinde salon seçimi için ChooseSalonScreen'e yönlendirme
-    navigation.navigate('ChooseSalon', { selectedTime, Movies: Movies });
+    navigation.navigate('Reservation', {
+      time: selectedTime,
+      hall: selectedHall,
+    });
   };
 
   return (
@@ -31,18 +34,18 @@ const BuyTicketScreen = ({ route, navigation }) => {
         <LinearGradient colors={['rgba(0,0,0,0)', '#2C2C2C']} style={styles.gradient} />
       </View>
 
-      <Text style={styles.title}>Tarih ve Saat Seç</Text>
+      <Text style={styles.title}>Salon Seç</Text>
 
+      {/* FlatList'in stilini düzenleyerek ortalamayı sağlıyoruz */}
       <FlatList
         horizontal
-        data={timeData}
+        data={hallData}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={[styles.card, selectedTime?.id === item.id && styles.cardSelected]}
-            onPress={() => setSelectedTime(item)}
+            style={[styles.card, selectedHall?.id === item.id && styles.cardSelected]}
+            onPress={() => setSelectedHall(item)}
           >
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardDate}>{item.date}</Text>
+            <Text style={styles.cardTitle}>{item.name}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
@@ -51,7 +54,7 @@ const BuyTicketScreen = ({ route, navigation }) => {
 
       <View style={{ marginBottom: 29 }}>
         <CustomButton
-          buttonText="Salon Seç"
+          buttonText="Rezervasyon Yap"
           setWidth="150"
           handleOnPress={handleReservation}
           buttonColor="#aa2525"
@@ -67,6 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2C2C2C',
     alignItems: 'center',
+    justifyContent: 'center', // Bu satır FlatList'i dikey olarak ortalar
   },
   imageContainer: {
     width: '100%',
@@ -93,6 +97,7 @@ const styles = StyleSheet.create({
   flatListContainer: {
     width: '90%',
     paddingBottom: 20,
+    alignSelf: 'center',  
   },
   card: {
     backgroundColor: '#3B3B3B',
@@ -107,7 +112,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 19,
-    minWidth: 100,
+    minWidth: 90,
+    alignSelf: 'center',  
+
   },
   cardSelected: {
     backgroundColor: '#5E5E5E',
@@ -117,10 +124,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-  cardDate: {
-    fontSize: 14,
-    color: '#A1A1A1',
-  },
 });
 
-export default BuyTicketScreen;
+export default ChooseSalonScreen;

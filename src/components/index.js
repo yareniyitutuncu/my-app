@@ -7,7 +7,7 @@ import Categories from "./Categories";
 import Cinemas from "./Cinemas";
 import CustomDrawer from "./CustomDrawer";
 import Cities from "./Cities";
-import SecondHeader from "./Header";
+import SecondHeader from "./SecondHeader";
 
 export {
     CustomText,

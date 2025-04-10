@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 30,
     marginTop: 20,
+  
   },
   buttonContent: {
     flexDirection: 'row', // İkon ve metni yatayda hizalamak için

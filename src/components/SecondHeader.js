@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     borderBottomWidth: 2,
     borderBottomColor: '#444',
+    
   },
   leftContainer: {
     width: 40,

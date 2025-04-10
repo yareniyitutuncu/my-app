@@ -25,16 +25,17 @@ const styles = StyleSheet.create({
         width: '80%',
       },
       title: {
-        fontSize: 18,
+        fontSize: 16,
         color: 'white',
         marginBottom: 5,
       },
       input: {
         height: 40,
-        borderColor: 'gray',
         borderWidth: 1,
         paddingLeft: 10,
         backgroundColor: 'gray',
         borderRadius: 5,
+        borderColor: '#666',
+        borderRadius: 12,
       },
 })

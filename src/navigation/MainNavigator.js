@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen, CinemasScreen, PaymentScreen, EditProfileScreen, NearbyCinemasScreen, SettingsScreen, ContactScreen } from '../screens/index';  
+import { LoginScreen, SignupScreen, StartingScreen, HomeScreen, MoviesScreen, ProfileScreen, TicketsScreen, CategoriesScreen, MovieDetailScreen, DrawerScreen, FavoriteFilmsScreen, CitiesScreen, BuyTicketScreen, ReservationScreen, CinemasScreen, PaymentScreen, EditProfileScreen, NearbyCinemasScreen, SettingsScreen, ContactScreen, ChooseSalonScreen } from '../screens/index';  
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Header, CustomDrawer } from '../components';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -41,7 +41,7 @@ const NavBar = ({navigation}) => {
  }}
       /> */}
       <Tab.Screen
-        name="Movies"
+        name="Filmler"
         component={MoviesScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="film" size={size} color={color} />,
         header: ()=> <Header
@@ -51,7 +51,7 @@ const NavBar = ({navigation}) => {
       />
     
       <Tab.Screen
-        name="Tickets"
+        name="Biletler"
         component={TicketsScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="ticket" size={size} color={color} />,
         header: ()=> <Header
@@ -60,7 +60,7 @@ const NavBar = ({navigation}) => {
         />, }}
       />
       <Tab.Screen
-        name="Profile"
+        name="Profil"
         component={ProfileScreen}
         options={{ tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
         header: ()=> <Header
@@ -121,7 +121,7 @@ const MainNavigator = () => {
         <Stack.Screen name = "NearbyCinemas" component={NearbyCinemasScreen}/>
         <Stack.Screen name = "Settings" component={SettingsScreen}/>
         <Stack.Screen name = "Contact" component={ContactScreen}/>
-
+        <Stack.Screen name = "ChooseSalon" component={ChooseSalonScreen}/>
 
 
       </Stack.Navigator>
