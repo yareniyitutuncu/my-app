@@ -4,24 +4,34 @@ import React, { useState, useCallback } from 'react';
 import { ScrollViewWrapper, Movies, Categories } from '../components';
 
 const { width } = Dimensions.get('screen');
+global.selectedCinema = null;
+global.selectedCity = null;
 
 const MoviesScreen = ({ navigation }) => {
 
-  const [selectedCity, setSelectedCity] = useState(null);
+
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+
 
   // Filtreleme işlemi
   const filteredMovies = useCallback(() => {
     let filtered = Movies;
-    
+
+
+
     if (selectedCity) {
       filtered = filtered.filter(movie => movie.city === selectedCity);
-    }
     
+      if (selectedCinema) {
+        filtered = filtered.filter(movie => movie.cinema === selectedCinema);
+      }
+    }
     if (selectedCategory) {
       filtered = filtered.filter(movie => movie.category === selectedCategory);
     }
 
+    
     return filtered;
   }, [selectedCity, selectedCategory]);
 
@@ -38,7 +48,11 @@ const MoviesScreen = ({ navigation }) => {
             style={styles.searchInput}
           />
           <Ionicons name='search' size={16} color='white' style={styles.searchIcon} />
-          <Pressable onPress={() => navigation.navigate('Cities', { setSelectedCity })}>
+          <Pressable 
+          onPress={() => {
+            navigation.navigate('Cities'); // Cities ekranına yönlendir
+          }}
+>
             <Ionicons name='location-outline' size={25} style={styles.locationIcon} />
           </Pressable>
         </View>

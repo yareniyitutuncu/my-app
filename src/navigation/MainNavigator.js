@@ -122,6 +122,7 @@ const MainNavigator = () => {
         <Stack.Screen name = "Settings" component={SettingsScreen}/>
         <Stack.Screen name = "Contact" component={ContactScreen}/>
         <Stack.Screen name = "ChooseSalon" component={ChooseSalonScreen}/>
+        <Stack.Screen name = "MoviesScreen" component={MoviesScreen}/>
 
 
       </Stack.Navigator>

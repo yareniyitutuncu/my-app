@@ -1,20 +1,17 @@
 import React from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
+import { Movies } from '../components'; // Mutlaka doğru yolu yaz
 
-const CitiesScreen = ({ navigation, route }) => {
-  const cities = [
-    'Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Adana', 'Konya',
-    'Gaziantep', 'Eskişehir', 'Diyarbakır', 'Kayseri', 'Mersin', 'Samsun',
-    'Trabzon', 'Malatya', 'Sakarya', 'Van', 'Balıkesir', 'Erzurum', 'Manisa'
-  ];
+const CitiesScreen = ({ navigation }) => {
+  const uniqueCities = [...new Set(Movies.map(movie => movie.city))];
 
   return (
     <View style={styles.container}>
-      {/* Vizyondaki Tüm Filmleri Gör Seçeneği */}
       <Pressable 
         onPress={() => {
-          route.params.setSelectedCity(null); // Şehir filtresini sıfırla
-          navigation.goBack();
+          global.selectedCity = null;
+          global.selectedCinema = null;
+          navigation.navigate('Main'); 
         }}
         style={styles.allMoviesButton}
       >
@@ -23,18 +20,17 @@ const CitiesScreen = ({ navigation, route }) => {
         </Text>
       </Pressable>
 
-      {/* Şehir Listesi */}
       <FlatList
-        data={cities}
+        data={uniqueCities}
         keyExtractor={(item) => item}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <Pressable 
+          <Pressable
             onPress={() => {
-              route.params.setSelectedCity(item);
-              navigation.goBack();
+              global.selectedCity = item;
+              navigation.navigate("Cinemas");
             }}
             style={styles.cityBox}
           >
@@ -45,6 +41,7 @@ const CitiesScreen = ({ navigation, route }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -58,7 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 30,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: 'grey',
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 5,
@@ -79,7 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: 'grey',
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
