@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import axios from 'axios';
+import BASE_URL from './Api';
 
 const Categories = [
   {id: '1', title: 'Fantastik', icon: 'sparkles'},

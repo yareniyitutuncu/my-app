@@ -1,68 +1,90 @@
-import { StyleSheet, Text, View, TextInput, FlatList, Pressable, Image, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  FlatList,
+  Pressable,
+  Image,
+  Dimensions,
+  ActivityIndicator,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState, useCallback } from 'react';
-import { ScrollViewWrapper, Movies, Categories } from '../components';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ScrollViewWrapper, Categories } from '../components';
+import { fetchMovies } from '../components/Movies'; // API fonksiyonunu import et
 
 const { width } = Dimensions.get('screen');
 global.selectedCinema = null;
 global.selectedCity = null;
 
 const MoviesScreen = ({ navigation }) => {
-
-
+  const [movies, setMovies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await fetchMovies();
+      setMovies(data);
+      setLoading(false);
+    };
 
+    loadData();
+  }, []);
 
-  // Filtreleme işlemi
   const filteredMovies = useCallback(() => {
-    let filtered = Movies;
-
-
+    let filtered = movies;
 
     if (selectedCity) {
-      filtered = filtered.filter(movie => movie.city === selectedCity);
-    
+      filtered = filtered.filter((movie) => movie.city === selectedCity);
+
       if (selectedCinema) {
-        filtered = filtered.filter(movie => movie.cinema === selectedCinema);
+        filtered = filtered.filter((movie) => movie.cinema === selectedCinema);
       }
     }
+
     if (selectedCategory) {
-      filtered = filtered.filter(movie => movie.category === selectedCategory);
+      filtered = filtered.filter((movie) => movie.category === selectedCategory);
     }
 
-    
     return filtered;
-  }, [selectedCity, selectedCategory]);
+  }, [movies, selectedCity, selectedCinema, selectedCategory]);
 
-  const uniqueCategories = [...new Set(Movies.map(movie => movie.category))];
+  const uniqueCategories = [...new Set(movies.map((movie) => movie.category))];
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <ScrollViewWrapper>
-
         <View style={styles.searchContainer}>
           <TextInput
-            placeholder='Ara'
-            placeholderTextColor='white'
+            placeholder="Ara"
+            placeholderTextColor="white"
             style={styles.searchInput}
           />
-          <Ionicons name='search' size={16} color='white' style={styles.searchIcon} />
-          <Pressable 
-          onPress={() => {
-            navigation.navigate('Cities'); // Cities ekranına yönlendir
-          }}
->
-            <Ionicons name='location-outline' size={25} style={styles.locationIcon} />
+          <Ionicons name="search" size={16} color="white" style={styles.searchIcon} />
+          <Pressable onPress={() => navigation.navigate('Cities')}>
+            <Ionicons name="location-outline" size={25} style={styles.locationIcon} />
           </Pressable>
         </View>
 
         <View style={styles.categories}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ color: 'white', marginBottom: 19, marginTop: 10, fontSize: 13 }}>Kategoriler</Text>
-            <Pressable  
-            onPress={() => setSelectedCategory(null)}>
-              <Text style={{ color: 'white', marginBottom: 19, marginTop: 10, fontSize: 13 }}>Tümünü Gör</Text>
+            <Text style={{ color: 'white', marginBottom: 19, marginTop: 10, fontSize: 13 }}>
+              Kategoriler
+            </Text>
+            <Pressable onPress={() => setSelectedCategory(null)}>
+              <Text style={{ color: 'white', marginBottom: 19, marginTop: 10, fontSize: 13 }}>
+                Tümünü Gör
+              </Text>
             </Pressable>
           </View>
 
@@ -83,9 +105,11 @@ const MoviesScreen = ({ navigation }) => {
         </View>
 
         {/* Kategorilere göre filtrelenmiş filmler */}
-        {uniqueCategories.map(category => {
-          const moviesInCategory = filteredMovies().filter(movie => movie.category === category);
-          
+        {uniqueCategories.map((category) => {
+          const moviesInCategory = filteredMovies().filter(
+            (movie) => movie.category === category
+          );
+
           if (moviesInCategory.length === 0) {
             return null;
           }
@@ -112,7 +136,6 @@ const MoviesScreen = ({ navigation }) => {
             </View>
           );
         })}
-
       </ScrollViewWrapper>
     </View>
   );
@@ -165,7 +188,7 @@ const styles = StyleSheet.create({
   categoriesItem: {
     alignItems: 'center',
     marginRight: 15,
-    backgroundColor: 'rgba(128, 128, 128, 0.5)', 
+    backgroundColor: 'rgba(128, 128, 128, 0.5)',
     width: 70,
     height: 50,
     justifyContent: 'center',
@@ -204,5 +227,10 @@ const styles = StyleSheet.create({
     marginLeft: 13,
     color: '#FFFFFF',
     fontSize: 13,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#2C2C2C',
   },
 });

@@ -8,6 +8,7 @@ import Cinemas from "./Cinemas";
 import CustomDrawer from "./CustomDrawer";
 import Cities from "./Cities";
 import SecondHeader from "./SecondHeader";
+import Api from "./Api"
 
 export {
     CustomText,
@@ -19,5 +20,6 @@ export {
     Cinemas,
     CustomDrawer,
     Cities,
-    SecondHeader
+    SecondHeader,
+    Api,
 }

@@ -1,12 +1,52 @@
-import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { CustomButton, CustomText } from '../components';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BASE_URL from '../components/Api';
 
-const LoginScreen = ({navigation}) => {
-
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
+  const handleLogin = () => {
+    setLoading(true);
+    setErrorMessage('');
+
+    axios.post(`${BASE_URL}/api/login`, {
+      email,
+      password,
+    })
+    .then(response => {
+      if (response.data.status === true) {
+        const userId = response.data.data.user_id;
+
+        // user_id'yi AsyncStorage'e kaydet
+        AsyncStorage.setItem('user_id', userId.toString())
+          .then(() => {
+            Alert.alert("Success", "Login successful!");
+            navigation.reset({ index: 0, routes: [{ name: 'Main' }] });
+          })
+          .catch(err => {
+            console.log("AsyncStorage error:", err);
+            setErrorMessage("Login succeeded but failed to save user session.");
+          });
+      } else {
+        setErrorMessage(response.data.message || "Login failed. Please check your credentials.");
+      }
+    })
+    .catch(error => {
+      console.log("Login error:", error.response?.data || error.message);
+      setErrorMessage(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -18,52 +58,51 @@ const LoginScreen = ({navigation}) => {
           <Image style={styles.popcornia} source={require('../../assets/images/popcornia.png')} />
         </View>
 
-
-        <View style = {styles.firstflex}>
-        <CustomText
-          title="Email"
-          secureOrNo={false}
-          setValue={setEmail}
-          value={email}
-          name="Enter your email"
-        />
-        
-        <CustomText
-          title="Password"
-          secureOrNo={false}
-          setValue={setPassword}
-          value={password}
-          name="Enter your password"
-        />
-        <CustomButton
-          buttonText= 'Login'
-          setWidth = '200'
-          buttonColor = '#aa2525'
-          handleOnPress = {()=> navigation.navigate('Main')}
-          pressedButtonColor =  'darkred'
-          
-        />
+        <View style={styles.firstflex}>
+          <CustomText
+            title="Email"
+            secureOrNo={false}
+            setValue={setEmail}
+            value={email}
+            name="Enter your email"
+          />
+          <CustomText
+            title="Password"
+            secureOrNo={true}
+            setValue={setPassword}
+            value={password}
+            name="Enter your password"
+          />
+          <CustomButton
+            buttonText={loading ? 'Logging in...' : 'Login'}
+            setWidth="200"
+            buttonColor="#aa2525"
+            handleOnPress={handleLogin}
+            pressedButtonColor="darkred"
+            disabled={loading}
+          />
         </View>
 
-        <View style = {styles.secondflex}>
-        <Text style = {{ marginTop: 25, marginRight: 10, color: 'white'}} >Don't have an account?</Text>
-        <CustomButton
-        buttonText = 'Sign Up'
-        setWidth = '20%'
-        handleOnPress = {()=> navigation.navigate('Signup')}
-        buttonColor = '#aa2525'
-        pressedButtonColor = 'darkred'
-        />
+        {errorMessage !== "" && (
+          <Text style={{ color: "red", textAlign: "center", marginTop: 10 }}>{errorMessage}</Text>
+        )}
 
+        <View style={styles.secondflex}>
+          <Text style={{ marginTop: 25, marginRight: 10, color: 'white' }}>Don't have an account?</Text>
+          <CustomButton
+            buttonText="Sign Up"
+            setWidth="20%"
+            handleOnPress={() => navigation.navigate('Signup')}
+            buttonColor="#aa2525"
+            pressedButtonColor="darkred"
+          />
         </View>
-
       </ImageBackground>
     </View>
   );
 };
 
 export default LoginScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -103,4 +142,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 200
   }
-});
+}); 

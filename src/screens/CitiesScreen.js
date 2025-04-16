@@ -1,32 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
-import { Movies } from '../components'; // Mutlaka doğru yolu yaz
-
+import axios from 'axios';
+import BASE_URL from '../components/Api';
 const CitiesScreen = ({ navigation }) => {
-  const uniqueCities = [...new Set(Movies.map(movie => movie.city))];
+  const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  axios.get(`${BASE_URL}/api/cities`)
+    .then((response) => {
+      console.log("API'den gelen veri:", response.data.data);
+      if (response.data.data && response.data.data.length > 0) {
+        const validCities = response.data.data.filter((item) => item && item.id);
+        setCities(validCities);
+      } else {
+        console.log("API boş veri döndü.");
+      }
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.log("API'den veri alınırken hata:", error.message);
+      setLoading(false);
+    });
+}, []);
+
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Yükleniyor...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Pressable 
+      <Pressable
         onPress={() => {
           global.selectedCity = null;
           global.selectedCinema = null;
-          navigation.navigate('Main'); 
+          navigation.navigate('Main');
         }}
         style={styles.allMoviesButton}
       >
-        <Text style={styles.allMoviesText}>
-          🎬 Vizyondaki Tüm Filmleri Gör
-        </Text>
+        <Text style={styles.allMoviesText}>🎬 Vizyondaki Tüm Filmleri Gör</Text>
       </Pressable>
 
+      <View>
+
       <FlatList
-        data={uniqueCities}
-        keyExtractor={(item) => item}
+        data={cities}  // `cities` state'ini kullanıyoruz
+        keyExtractor={(item) => item.id.toString()}  // id'yi kullanarak anahtarları belirliyoruz
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
+         
           <Pressable
             onPress={() => {
               global.selectedCity = item;
@@ -34,14 +63,14 @@ const CitiesScreen = ({ navigation }) => {
             }}
             style={styles.cityBox}
           >
-            <Text style={styles.cityText}>{item}</Text>
-          </Pressable>
+<Text style={styles.cityText}>{item.name?.toString() ?? 'Bilinmeyen Şehir'}</Text>
+</Pressable>
         )}
       />
+      </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +113,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+  },
+  loadingText: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: '50%',
   }
 });
 
