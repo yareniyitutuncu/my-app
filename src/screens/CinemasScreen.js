@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
 import axios from 'axios';
-
-const BASE_URL = 'http://10.10.27.17:19058'; // API Base URL
+import BASE_URL from '../components/Api';
 
 const CinemasScreen = ({ navigation }) => {
   const [cinemas, setCinemas] = useState([]);
@@ -72,11 +71,15 @@ const CinemasScreen = ({ navigation }) => {
       <FlatList
         data={cinemas}
         keyExtractor={(item) => item.cinema_id.toString()}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <Pressable
+            key={item.cinema_id} // Key prop ekleniyor
             onPress={() => {
-              global.selectedCinema = item; // Seçilen sinema bilgilerini global değişkende sakla
-              navigation.navigate("MoviesScreen", { selectedCinema: item }); // MoviesScreen'e yönlendir
+              global.selectedCinema = item;
+              navigation.navigate("MoviesScreen", { selectedCinema: item });
             }}
             style={styles.cinemaBox}
           >
@@ -91,31 +94,50 @@ const CinemasScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#101010',
     padding: 20,
   },
-  loadingText: {
-    textAlign: 'center',
-    fontSize: 18,
-  },
   allCinemasButton: {
-    marginBottom: 20,
-    padding: 10,
-    backgroundColor: '#007bff',
-    borderRadius: 5,
+    paddingVertical: 16,
+    backgroundColor: '#aa2525',
+    borderRadius: 15,
+    marginBottom: 30,
+    alignItems: 'center',
+    shadowColor: 'grey',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5,
   },
   allCinemasText: {
-    textAlign: 'center',
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
+    letterSpacing: 1.2,
   },
   cinemaBox: {
-    padding: 15,
-    marginVertical: 10,
-    backgroundColor: '#f4f4f4',
-    borderRadius: 5,
+    backgroundColor: 'grey',
+    paddingVertical: 22,
+    paddingHorizontal: 16,
+    borderRadius: 15,
+    marginBottom: 20,
+    width: '48%', // Dinamik genişlik
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+    shadowColor: 'grey',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   cinemaText: {
+    color: '#fff',
     fontSize: 18,
+    fontWeight: '600',
+  },
+  loadingText: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: '50%',
   },
 });
 

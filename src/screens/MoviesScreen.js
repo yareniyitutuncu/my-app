@@ -22,16 +22,18 @@ const MoviesScreen = ({ navigation }) => {
   const [movies, setMovies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedCinema, setSelectedCinema] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await fetchMovies();
+      const data = await fetchMovies(selectedCity, selectedCinema);
       setMovies(data);
       setLoading(false);
     };
 
     loadData();
-  }, []);
+  }, [selectedCity, selectedCinema]); // selectedCity veya selectedCinema değiştiğinde veri yükle
 
   const filteredMovies = useCallback(() => {
     let filtered = movies;

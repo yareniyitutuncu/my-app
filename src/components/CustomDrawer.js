@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "./CustomButton";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const CustomDrawer = (props) => {
+
+  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const name = await AsyncStorage.getItem('user_name');
+        const email = await AsyncStorage.getItem('user_email'); // email kaydedildiyse
+
+        if (name) setUserName(name);
+        if (email) setUserEmail(email);
+      } catch (error) {
+        console.log('Kullanıcı verisi alınamadı:', error);
+      }
+    };
+
+    getUserData();
+  }, []);
+  
+  
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={styles.container}>
       {/* Profil Alanı */}
       <View style={styles.profileSection}>
         <Ionicons name="person-circle" size={80} color="white" />
-        <Text style={styles.profileName}>Yaren İyitütüncü</Text>
+          <Text style={styles.profileName}>{userName || 'Kullanıcı Adı'}</Text>
       </View>
 
     <View style = {{flexDirection: 'row'}}>

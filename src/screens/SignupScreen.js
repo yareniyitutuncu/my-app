@@ -15,16 +15,16 @@ const SignupScreen = ({ navigation }) => {
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
-      return Alert.alert("Error", "Passwords do not match");
+      return Alert.alert("Hata", "Şifreler eşleşmiyor");
     }
-
+  
     if (!name || !email || !password) {
-      return Alert.alert("Error", "All fields are required");
+      return Alert.alert("Hata", "Tüm alanları doldurmalısınız");
     }
-
+  
     setLoading(true);
-    setErrorMessage(""); // Clear previous error messages
-
+    setErrorMessage("");
+  
     axios
       .post(`${BASE_URL}/api/register`, {
         name,
@@ -33,26 +33,37 @@ const SignupScreen = ({ navigation }) => {
         password_confirmation: confirmPassword,
       })
       .then(async (response) => {
-        if (response.status === 200 || response.status === 201) {
-          // User ID from the response
-          const { user_id } = response.data.data;
-          
-          // Save user_id in AsyncStorage
-          await AsyncStorage.setItem("user_id", user_id.toString());
-
-          Alert.alert("Success", "Account created successfully!");
-          navigation.reset({ index: 0, routes: [{ name: "Main" }] });
+        console.log("API response =>", response.data);
+        const userId = response.data?.data?.user_id;
+        const userName = response.data?.data?.user_name;
+        const userEmail = response.data?.data?.user_email;
+  
+        if (userId && userName && userEmail) {
+          await AsyncStorage.setItem("user_id", userId.toString());
+          await AsyncStorage.setItem("user_name", userName);
+          await AsyncStorage.setItem("user_email", userEmail);
+  
+          Alert.alert("Başarılı", "Hesap başarıyla oluşturuldu!", [
+            {
+              text: "Tamam",
+              onPress: () => {
+                navigation.reset({ index: 0, routes: [{ name: "Main" }] });
+              },
+            },
+          ]);
         } else {
-          setErrorMessage("Something went wrong. Please try again.");
+          setErrorMessage("Sunucudan beklenmeyen yanıt.");
         }
       })
       .catch((error) => {
         console.log("Signup error =>", error.response?.data || error.message);
         setErrorMessage(
-          error.response?.data?.message || "An error occurred. Please try again."
+          error.response?.data?.message || "Bir hata oluştu, lütfen tekrar deneyin."
         );
-      })      .finally(() => setLoading(false));
+      })
+      .finally(() => setLoading(false));
   };
+  
 
   return (
     <View style={styles.container}>

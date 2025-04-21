@@ -1,19 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios';
 import { CustomButton } from '../components';
+import BASE_URL from '../components/Api';
 
 const ChooseSalonScreen = ({ route, navigation }) => {
-  const { selectedTime } = route.params;
-  const { Movies } = route.params;
-
-  const hallData = [
-    { id: 'h1', name: 'Salon 1' },
-    { id: 'h2', name: 'Salon 2' },
-    { id: 'h3', name: 'VIP Salon' },
-  ];
-
+  const { selectedTime, Movies } = route.params;
   const [selectedHall, setSelectedHall] = useState(null);
+  const [hallData, setHallData] = useState([]);
+
+  useEffect(() => {
+    const showtimeId = selectedTime.id;
+
+    axios.get(`${BASE_URL}/api/showtimes/${showtimeId}`)
+      .then((response) => {
+        const data = response.data.data;
+
+        if (!data || !data.hall_name) {
+          Alert.alert('Uyarı', 'Salon bilgisi bulunamadı.');
+          return;
+        }
+
+        // Gelen veriyi tek bir salon olarak formatlıyoruz
+        const halls = [{
+          id: data.hall_id.toString(),
+          name: data.hall_name,
+          showtime_id: data.id,
+        }];
+
+        setHallData(halls);
+      })
+      .catch((error) => {
+        console.error('Salon verisi çekilirken hata:', error.message);
+        Alert.alert('Hata', 'Salon bilgileri yüklenemedi');
+      });
+  }, [selectedTime]);
 
   const handleReservation = () => {
     if (!selectedHall) {
@@ -24,19 +46,19 @@ const ChooseSalonScreen = ({ route, navigation }) => {
     navigation.navigate('Reservation', {
       time: selectedTime,
       hall: selectedHall,
+      movie: Movies,
     });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={Movies.image} style={styles.image} />
+        <Image source={{ uri: Movies.movie_poster_url || Movies.image?.uri }} style={styles.image} />
         <LinearGradient colors={['rgba(0,0,0,0)', '#2C2C2C']} style={styles.gradient} />
       </View>
 
       <Text style={styles.title}>Salon Seç</Text>
 
-      {/* FlatList'in stilini düzenleyerek ortalamayı sağlıyoruz */}
       <FlatList
         horizontal
         data={hallData}
@@ -65,12 +87,14 @@ const ChooseSalonScreen = ({ route, navigation }) => {
   );
 };
 
+export default ChooseSalonScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2C2C2C',
     alignItems: 'center',
-    justifyContent: 'center', // Bu satır FlatList'i dikey olarak ortalar
+    justifyContent: 'center',
   },
   imageContainer: {
     width: '100%',
@@ -97,7 +121,7 @@ const styles = StyleSheet.create({
   flatListContainer: {
     width: '90%',
     paddingBottom: 20,
-    alignSelf: 'center',  
+    alignSelf: 'center',
   },
   card: {
     backgroundColor: '#3B3B3B',
@@ -113,8 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 19,
     minWidth: 90,
-    alignSelf: 'center',  
-
+    alignSelf: 'center',
   },
   cardSelected: {
     backgroundColor: '#5E5E5E',
@@ -125,5 +148,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-export default ChooseSalonScreen;

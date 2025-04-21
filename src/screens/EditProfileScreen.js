@@ -1,14 +1,33 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SecondHeader, CustomButton, CustomText, ScrollViewWrapper } from '../components'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Ionicons } from '@expo/vector-icons'
 const EditProfileScreen = ({ navigation }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [birthDate, setBirthDate] = useState('')
   const [gender, setGender] = useState('')
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const name = await AsyncStorage.getItem('user_name');
+        const email = await AsyncStorage.getItem('user_email'); // email kaydedildiyse
+
+        if (name) setUserName(name);
+        if (email) setUserEmail(email);
+      } catch (error) {
+        console.log('Kullanıcı verisi alınamadı:', error);
+      }
+    };
+
+    getUserData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -20,10 +39,8 @@ const EditProfileScreen = ({ navigation }) => {
         />
 
         <View style={styles.profileContainer}>
-          <Image
-            source={require('../../assets/movies/avengers.jpg')}
-            style={styles.profileImage}
-          />
+        <Ionicons name="person-circle" size={80} color="white" />
+
           <Pressable onPress={() => console.log('Fotoğraf değiştirme işlemi')}>
             <Text style={styles.changePhotoText}>Fotoğrafı Değiştir</Text>
           </Pressable>
@@ -33,7 +50,7 @@ const EditProfileScreen = ({ navigation }) => {
           <CustomText
             secureOrNo={false}
             title="Ad Soyad"
-            value={name}
+            value={userName}
             setValue={setName}
             name="Adınızı ve Soyadınızı girin"
           />
@@ -41,26 +58,12 @@ const EditProfileScreen = ({ navigation }) => {
           <CustomText
             secureOrNo={false}
             title="E-posta"
-            value={email}
+            value={userEmail}
             setValue={setEmail}
             name="E-postanızı girin"
           />
 
-          <CustomText
-            secureOrNo={false}
-            title="Telefon Numarası"
-            value={phone}
-            setValue={setPhone}
-            name="Telefon Numaranızı girin"
-          />
 
-          <CustomText
-            secureOrNo={false}
-            title="Doğum Tarihi"
-            value={birthDate}
-            setValue={setBirthDate}
-            name="GG/AA/YYYY"
-          />
 
           <View style={styles.genderContainer}>
             <Text style={styles.genderLabel}>Cinsiyet</Text>

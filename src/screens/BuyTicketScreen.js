@@ -1,18 +1,43 @@
-// BuyTicketScreen.js
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { CustomButton } from '../components';
+import axios from 'axios';
+import BASE_URL from '../components/Api';
 
 const BuyTicketScreen = ({ route, navigation }) => {
   const [selectedTime, setSelectedTime] = useState(null);
+  const [showtimes, setShowtimes] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { Movies } = route.params;
 
-  const timeData = [
-    { id: '1', title: '21:00', date: '02.04.2025' },
-    { id: '2', title: '23:00', date: '03.04.2025' },
-    { id: '3', title: '01:00', date: '04.04.2025' },
-  ];
+  useEffect(() => {
+    fetchShowtimes();
+  }, []);
+
+  const fetchShowtimes = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/showtimes/${Movies.id}`);
+      const data = response.data.data;
+  
+      // Eğer verinin içinde 'data' obje şeklindeyse, onu uygun formata getiriyoruz
+      const formatted = [
+        {
+          id: data.id.toString(),
+          title: new Date(data.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          date: new Date(data.start_time).toLocaleDateString('tr-TR'),
+          fullData: data,
+        },
+      ];
+      setShowtimes(formatted);
+    } catch (error) {
+      console.log('Seans çekme hatası =>', error.message);
+      Alert.alert('Hata', 'Seans bilgileri alınamadı');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   const handleReservation = () => {
     if (!selectedTime) {
@@ -20,34 +45,40 @@ const BuyTicketScreen = ({ route, navigation }) => {
       return;
     }
 
-    // Zaman seçildiğinde salon seçimi için ChooseSalonScreen'e yönlendirme
-    navigation.navigate('ChooseSalon', { selectedTime, Movies: Movies });
+    navigation.navigate('ChooseSalon', {
+      selectedTime: selectedTime.fullData,
+      Movies: Movies,
+    });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={Movies.image} style={styles.image} />
+        <Image source={{ uri: Movies.image.uri }} style={styles.image} />
         <LinearGradient colors={['rgba(0,0,0,0)', '#2C2C2C']} style={styles.gradient} />
       </View>
 
       <Text style={styles.title}>Tarih ve Saat Seç</Text>
 
-      <FlatList
-        horizontal
-        data={timeData}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.card, selectedTime?.id === item.id && styles.cardSelected]}
-            onPress={() => setSelectedTime(item)}
-          >
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardDate}>{item.date}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.flatListContainer}
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#fff" />
+      ) : (
+        <FlatList
+          horizontal
+          data={showtimes}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[styles.card, selectedTime?.id === item.id && styles.cardSelected]}
+              onPress={() => setSelectedTime(item)}
+            >
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.cardDate}>{item.date}</Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.flatListContainer}
+        />
+      )}
 
       <View style={{ marginBottom: 29 }}>
         <CustomButton
@@ -61,6 +92,8 @@ const BuyTicketScreen = ({ route, navigation }) => {
     </View>
   );
 };
+
+export default BuyTicketScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -122,5 +155,3 @@ const styles = StyleSheet.create({
     color: '#A1A1A1',
   },
 });
-
-export default BuyTicketScreen;
